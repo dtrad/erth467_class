@@ -1,0 +1,18 @@
+% show that convolution is different from circular convolution
+a = [1 2 3 4]
+b = [5,6,7,8]
+lc=conv(a,b);
+cc=ifft(fft(a).*fft(b));
+sprintf("Before zero padding")
+sprintf("%7.0f",lc)
+sprintf("%4.0f",cc)
+
+sprintf("After zero padding")
+% Now pad with zeroes
+a = [1 2 3 4 0 0 0 0]
+b = [5,6,7,8 0 0 0 0]
+lc=conv(a,b);
+cc=(ifft(fft(a).*fft(b)));
+
+sprintf("%8.0f",lc)
+sprintf("%8.0f",cc)

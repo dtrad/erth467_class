@@ -1,0 +1,268 @@
+\documentclass[letter]{article}
+
+\usepackage{listings,geometry,amsmath}
+
+\lstset{language=Matlab}
+\geometry{margin=1in,nohead}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1.5ex plus0.5ex minus0.5ex}
+\renewcommand{\baselinestretch}{1.2}
+
+\begin{document}
+\large{ERTH 567: Lab 00}\hfill \large{September 4, 2026}\\
+
+\section*{Introduction}
+This first lab is simply to introduce you to the software that we will
+use for the remainder of the labs.  We use the Matlab software
+package.  Matlab is a really easy to use programming language with
+tons of built-in functions, including a bundle of plotting
+routines. If you already have some programming experience, this lab
+will be easy.  If you have never programmed before, then this lab will
+provide a gentle introduction.
+
+As far as what you need to prepare to hand in, you need only look at
+the sections titled `Exercise' and `HAND IN'.
+
+\section*{Manipulating matrices, vectors and scalars}
+Matlab stores information in \emph{variables}.  Almost every variable in
+Matlab is stored as a \emph{matrix}.  Try entering the following
+commands (without the bracketed and italicized comments, or the
+command prompt, $>>$)\ldots
+\begin{enumerate}
+\item $>>$ a = 2 \emph{(assigns 2 to $a$)}
+\item $>>$ x = [1;2;3] \emph{(assigns a column vector to $x$)}
+\item $>>$ y = [4,5,6] \emph{(assigns a row vector to $y$)}
+\item $>>$ z = [0:2:20] \emph{(assigns a row vector
+$\left[\begin{array}{ccccc} 0 & 2 & 4 & \cdots & 20 \end{array}\right]$ to $z$)}
+\item $>>$ A = [1,2,3;4,5,6;7,8,0] \emph{(assigns a matrix to $A$)}
+\item $>>$ x \emph{(prints $x$)}
+\item $>>$ whos \emph{(prints a table of stored variables)}
+\item $>>$ size(A) \emph{(prints the size of A)}
+\item $>>$ size(z) \emph{(prints the size of z)}
+\item $>>$ length(z) \emph{(prints the length of z)}
+\end{enumerate}
+`a' is a scalar ($1\times 1$ matrix); `x' is a vector ($3\times 1$
+matrix); `y' is a vector ($1\times 3$ matrix); `A' is a matrix ($3\times 3$
+matrix). $>>$ is called the command prompt.
+
+You can access subsets of the matrices and vectors.  Try the
+following\ldots
+\begin{enumerate}
+\item $>>$ x(2) \emph{(access the 2nd element of the vector)}
+\item $>>$ x(2:3) \emph{(access the 2nd through 3rd elements of the vector)}
+\item $>>$ A(2,3) \emph{(access the element, $A_{23}$ of the matrix)}
+\item $>>$ A(1:2,2:3) \emph{(access the elements $A_{ij}$ for
+$i=1\ldots 2, j=2\ldots3$)} 
+\end{enumerate}
+
+You can stitch vectors and matrices together in any logical
+order.  For example, try the following\ldots
+\begin{enumerate}
+\item $>>$ [x',y] \emph{(attach $y$ to the tail of $x^T$)}
+\item $>>$ [A,x] \emph{(attach a column to the right side of $\mathbf{A}$)}
+\end{enumerate}
+\section*{Some Linear Algebra}
+Matlab supports pretty much every operation that you can find in your
+linear algebra text-book (Here we look at just a few simple
+examples).  Try the following\ldots
+\begin{enumerate}
+\item $>>$ A' \emph{(returns the transpose of $A$)}
+\item $>>$ A*x \emph{(matrix-vector multiplication of $A$ and $x$)}
+\item $>>$ x+y' \emph{(vector addition of $x$ and $y^T$)}
+\item $>>$ x.*y' \emph{(element-wise multiplication of $x$ and $y^T$)}
+\item $>>$ x./y' \emph{(element-wise division of $x$ and $y^T$)}
+\item $>>$ a*x \emph{(multiplication of a vector by a scalar)}
+\item $>>$ x+a \emph{(vector addition of $x$ and a vector of the same
+size with elements $a$)}
+\end{enumerate}
+Of course this is just a short list.  If you have time, you can look
+at the on-line documentation for more features.
+
+\section*{Plotting}
+Matlab has some easy-to-use and useful plotting routines.  In this lab we will
+use the `plot' routine.  To learn about other plotting functions in
+Matlab you can use the `help' command.  Try the following...
+\begin{enumerate}
+\item $>>$ help plot
+\item $>>$ help stem
+\item $>>$ help subplot
+\end{enumerate}
+You don't have to read the instructions\ldots Just keep in mind that
+you will have to use these plotting routines for every lab exercise,
+including this one.
+
+\section*{Some Computer Science}
+Matlab is a fully featured \emph{scripting} language supporting functions,
+loops, and conditional statements.  This means that commands can be
+typed into a text file which can be interpreted by Matlab.
+
+\begin{itemize}
+\item open a new text file in a text editor called
+  `my\_first\_script.m'
+\item In Matlab change directories to the one that contains your
+  file by typing, at the Matlab prompt, `cd path/to/file'.  This will
+  ensure that Matlab can see your text file.  If you are not familiar
+  with the `cd' command, please ask.
+\end{itemize}
+
+We will enter commands into this text file.  For this first example,
+our objective is very simple:
+
+\begin{itemize}
+\item Write some computer code that will produce two vectors,
+  $\mathbf{x}$ and $\mathbf{y}$ such that
+  $\mathbf{y}=\sin(\mathbf{x})$. Instructions 
+  follow\ldots
+\end{itemize}
+
+%\vfill
+%\hfill \emph{continued on next page...}
+
+%\newpage
+
+\subsection*{looping}
+
+enter the following text (code) into `my\_first\_script.m' \\
+
+\lstinputlisting[frame=tb]{my_first_script.m}
+
+`ii' is the loop index; it is set from the elements of the row vector:
+$\left[\begin{array}{ccccc} 1 & 2 & \cdots & 100 \end{array}\right]$.
+Matlab \emph{loops} through the elements of this vector, executing the
+contents of the loop (the lines between `for ii=1:1:100' and `end')
+for each value of `ii'.  You can run this code by entering the file
+name (without the suffix) at the command
+prompt.  Make sure you try this to see if your code works.  You should
+see a window pop up with a plot of your curve (exciting, eh?).
+
+Alternatively, you can use the `while' looping command.  To
+learn more about the `while' looping command, use the already
+mentioned Matlab help feature.
+
+\begin{itemize}
+\item Try editing your `my\_first\_script.m' file, replacing the `for' loop
+with a `while' loop.
+\end{itemize}
+
+Finally, it should be noted that the above code can be written without
+using a loop.  An idea which you will need shortly.
+
+\subsection*{conditionals}
+Create a second file called `my\_second\_script.m' and add the
+following code.  The `if' statement is the conditional.  If the
+condition `x(ii)$<$0' is true, the statement, `y(ii)=-x(ii)' is
+executed.  Otherwise, `y(ii)=x(ii)' is executed.
+
+\lstinputlisting[frame=tb]{my_second_script.m}
+
+Try running this new script (wow, even more exiting!).
+
+\subsection*{writing functions}
+So far we have written two Matlab scripts.  But, what if we want to
+use the script over and over again with different values for $n$, $T$
+and so on.  This is what functions are for.  Each function must be in
+its own file.  The first line of code in the function file will always
+look like,\\
+
+\centerline{function[return\_val1,return\_val2,\ldots] =
+my\_function(arg1,arg2,\ldots)}\vspace{.5cm}
+
+This line is called the function header. The function's name is
+`my\_function', and the function must be written in a text
+file called `my\_function.m'.  The remainder of the code in the
+function file will use the variables: `arg1', `arg2', \ldots; will
+assign values to variables: `return\_val1', `return\_val2, \ldots; and
+will look similar to the code in the scripts that you have already written.
+
+\section*{Exercise}
+In this exercise you will write a function for the code in
+`my\_second\_script.m'.  Once again, your goal is to write code that
+computes the vectors $\mathbf{x}$ and $\mathbf{y}$ such that,
+\begin{equation}
+  y=f(x)=
+  \left\{
+  \begin{array}{r@{\quad,\quad}l}
+    -x & x < 0\\
+    x  & x \geq 0
+  \end{array}
+  \right.
+  \label{eqn:saw}
+\end{equation}
+
+\begin{itemize}
+\item Open a new file called `saw\_tooth.m'
+\item Use the following function header:
+\end{itemize}
+
+\centerline{function[x,y] = saw\_tooth(n,x0)}
+\vspace{.5cm}
+
+\begin{itemize}
+\item The function should NOT plot $y(x)$.  It should only compute $y$
+  and $x$.
+\end{itemize}
+
+The body of the function is for you to write.  Of course it will look
+very similar to `my\_second\_script.m'; however, I am placing the
+following restriction on your code:\\
+
+\centerline{YOU MAY NOT USE LOOPS OR AN INDEX VARIABLE SUCH AS `ii'!}
+\vspace{0.5cm}
+
+Once you've written your function, make sure it works!  Try using
+it.  For example, try:
+
+\begin{enumerate}
+\item $>>$ [x,y] = saw\_tooth(101,-2);
+\item $>>$ plot(x,y)
+\end{enumerate}
+
+Finally, let's put your function to use inside a Matlab script.  In
+this script you will plot your function and an approximation to that
+function using sine and cosine functions (ie. a Fourier
+series) such that $f(x)$ in equation (\ref{eqn:saw}) is approximated
+as,
+\begin{displaymath}
+  f(x) \approx \frac{a_\circ}{2} + \sum_{m=1}^{M}\left[a_m\sin\left(\frac{m\pi
+  x}{2}\right) + b_m\cos\left(\frac{m\pi x}{2}\right)\right]
+\end{displaymath}
+where
+\begin{displaymath}
+\begin{array}{ll}
+a_\circ = 2 \\
+a_m = 8/\left(m\pi\right)^2 & \text{for odd } m \\
+a_m = 0 & \text{for even } m \\
+b_m = 0 & \text{for } m=1,2,\ldots
+\end{array}
+\end{displaymath}
+and $f(x)$ is approximated and plotted for $M=1$ through $M=9$.
+Detailed instructions follow\ldots
+
+\begin{itemize}
+\item open a new file called `fourier.m'.
+\end{itemize}
+
+Input the following code into the text file.
+
+\lstinputlisting[frame=tb]{fourier.m}
+
+Run the script.  If your typing skills are sufficient, you should
+see something interesting.  Namely that the Fourier series works!
+
+%\section*{HAND IN}
+%DO NOT HAND IN A FORMAL LAB WRITE UP!!!  Do hand in\ldots
+%\begin{enumerate}
+%\item A print-out of your function, `saw\_tooth.m' (with your name on it).
+%\item A print-out of the plot produced by the script, `fourier.m'.
+%\item Add comments to `fourier.m' explaining what each line does.  One
+%  sentence per line of code is more than enough.  Use your best judgment.
+%  Hand in a print-out of your commented  code.
+%\end{enumerate}
+
+You can find some useful Matlab tutorials at:
+`http://www.math.siu.edu/matlab/tutorials.html'
+
+
+\end{document}
+

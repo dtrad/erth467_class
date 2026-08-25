@@ -2,7 +2,7 @@
 
 \usepackage{listings,geometry,amsmath}
 
-\lstset{language=Matlab}
+\lstset{language=Matlab,basicstyle=\small\ttfamily}
 \geometry{margin=1in,nohead}
 
 \setlength{\parindent}{0em}
@@ -10,19 +10,44 @@
 \renewcommand{\baselinestretch}{1.2}
 
 \begin{document}
-\large{ERTH 567: Lab 00}\hfill \large{September 4, 2026}\\
+\large{ERTH 467: Lab 00}\hfill \large{September 4, 2026}\\
 
 \section*{Introduction}
 This first lab is simply to introduce you to the software that we will
-use for the remainder of the labs.  We use the Matlab software
-package.  Matlab is a really easy to use programming language with
+use for the remainder of the labs. You don't need to hand in a formal lab write-up for this lab.  However, you should complete the exercises and make sure that you understand the
+material.  If you have any questions, please ask.  
+
+We use the Matlab software package.  Matlab is a really easy to use programming language with
 tons of built-in functions, including a bundle of plotting
 routines. If you already have some programming experience, this lab
 will be easy.  If you have never programmed before, then this lab will
 provide a gentle introduction.
 
-As far as what you need to prepare to hand in, you need only look at
-the sections titled `Exercise' and `HAND IN'.
+If you know Python, notice that Matlab syntax is very similar to Python's NumPy library.  
+If you know C, notice that Matlab syntax is very similar to C syntax.
+If you know neither, then this lab will provide a gentle introduction.
+
+The reason for using Matlab instead of numpy is that Matlab is clearer for signal processing.
+A large number of signal processing functions are built into Matlab, and the syntax is more clear than numpy.  
+For example, the Fourier transform in Matlab is `fft' while in numpy it is `numpy.fft.fft'.  
+The Matlab syntax is much easier to read.
+
+Another reason for using Matlab, is that occassionally we will the CREWES toolbox, 
+which is a collection of Matlab functions for seismic processing. 
+Many of the functions we will develop in this course have some similar version in the CREWES toolbox.
+You can find the CREWES toolbox at: `http://www.crewes.org/ResearchLinks/Software/MatlabToolbox/'.
+
+Similarly, Matlab has a large number of built-in functions for signal processing,
+including the Fourier transform, filtering, and plotting.  You can find the Matlab documentation at:
+`http://www.mathworks.com/help/matlab/'.
+
+NOTE: you can use the crewes toolbox to check your results or get ideas for your own code, 
+but you should write your own code for the lab exercises.
+
+On the other hand, if you prefer to use Python, please feel free to do so.  
+The lab exercises can be completed in either language.  
+If you choose to use Python, please make sure that you have the numpy and matplotlib libraries installed.
+
 
 \section*{Manipulating matrices, vectors and scalars}
 Matlab stores information in \emph{variables}.  Almost every variable in
@@ -30,6 +55,7 @@ Matlab is stored as a \emph{matrix}.  Try entering the following
 commands (without the bracketed and italicized comments, or the
 command prompt, $>>$)\ldots
 \begin{enumerate}
+\small
 \item $>>$ a = 2 \emph{(assigns 2 to $a$)}
 \item $>>$ x = [1;2;3] \emph{(assigns a column vector to $x$)}
 \item $>>$ y = [4,5,6] \emph{(assigns a row vector to $y$)}
@@ -49,6 +75,7 @@ matrix). $>>$ is called the command prompt.
 You can access subsets of the matrices and vectors.  Try the
 following\ldots
 \begin{enumerate}
+\small
 \item $>>$ x(2) \emph{(access the 2nd element of the vector)}
 \item $>>$ x(2:3) \emph{(access the 2nd through 3rd elements of the vector)}
 \item $>>$ A(2,3) \emph{(access the element, $A_{23}$ of the matrix)}
@@ -59,6 +86,7 @@ $i=1\ldots 2, j=2\ldots3$)}
 You can stitch vectors and matrices together in any logical
 order.  For example, try the following\ldots
 \begin{enumerate}
+\small
 \item $>>$ [x',y] \emph{(attach $y$ to the tail of $x^T$)}
 \item $>>$ [A,x] \emph{(attach a column to the right side of $\mathbf{A}$)}
 \end{enumerate}
@@ -67,6 +95,7 @@ Matlab supports pretty much every operation that you can find in your
 linear algebra text-book (Here we look at just a few simple
 examples).  Try the following\ldots
 \begin{enumerate}
+\small
 \item $>>$ A' \emph{(returns the transpose of $A$)}
 \item $>>$ A*x \emph{(matrix-vector multiplication of $A$ and $x$)}
 \item $>>$ x+y' \emph{(vector addition of $x$ and $y^T$)}
@@ -84,6 +113,7 @@ Matlab has some easy-to-use and useful plotting routines.  In this lab we will
 use the `plot' routine.  To learn about other plotting functions in
 Matlab you can use the `help' command.  Try the following...
 \begin{enumerate}
+\small
 \item $>>$ help plot
 \item $>>$ help stem
 \item $>>$ help subplot
@@ -214,6 +244,7 @@ Once you've written your function, make sure it works!  Try using
 it.  For example, try:
 
 \begin{enumerate}
+\small
 \item $>>$ [x,y] = saw\_tooth(101,-2);
 \item $>>$ plot(x,y)
 \end{enumerate}

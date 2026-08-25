@@ -1,5 +1,5 @@
 text : 
-	pdflatex lab00
+	pdflatex Lab0Instructions.tex
 
 clean : tidy
 	rm -f lab00.pdf

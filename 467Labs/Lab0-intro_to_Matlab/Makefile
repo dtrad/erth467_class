@@ -2,11 +2,11 @@ text :
 	pdflatex Lab0Instructions.tex
 
 clean : tidy
-	rm -f lab00.pdf
+	rm -f Lab0Instructions.pdf
 
 tidy :
-	rm -f lab00.aux
-	rm -f lab00.dvi
-	rm -f lab00.log
+	rm -f Lab0Instructions.aux
+	rm -f Lab0Instructions.dvi
+	rm -f Lab0Instructions.log
 	rm -f *~
 

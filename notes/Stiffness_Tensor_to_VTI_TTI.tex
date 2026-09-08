@@ -1,0 +1,432 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+
+\title{From the General Elastic Stiffness Tensor to VTI and TTI Media}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{The general stress--strain relation}
+
+For a linear elastic material, stress and strain are related by Hooke's law,
+
+\begin{equation}
+    \sigma_{ij} = C_{ijkl}\,\epsilon_{kl},
+\end{equation}
+
+where
+
+\begin{itemize}
+    \item $\sigma_{ij}$ is the stress tensor,
+    \item $\epsilon_{kl}$ is the strain tensor,
+    \item $C_{ijkl}$ is the fourth-order stiffness tensor.
+\end{itemize}
+
+In three dimensions, each index can take the values $1$, $2$, or $3$. Therefore, at first sight, the stiffness tensor contains
+
+\begin{equation}
+    3^4 = 81
+\end{equation}
+
+coefficients.
+
+However, most of these coefficients are not independent.
+
+\section{From 81 coefficients to 36: minor symmetries}
+
+For ordinary elastic materials, both the stress tensor and the strain tensor are symmetric:
+
+\begin{equation}
+    \sigma_{ij} = \sigma_{ji},
+\end{equation}
+
+and
+
+\begin{equation}
+    \epsilon_{ij} = \epsilon_{ji}.
+\end{equation}
+
+These symmetries imply the so-called \emph{minor symmetries} of the stiffness tensor:
+
+\begin{equation}
+    C_{ijkl} = C_{jikl},
+\end{equation}
+
+and
+
+\begin{equation}
+    C_{ijkl} = C_{ijlk}.
+\end{equation}
+
+Thus, instead of the pair $ij$ having nine possible combinations,
+
+\[
+11,\;12,\;13,\;21,\;22,\;23,\;31,\;32,\;33,
+\]
+
+only six are distinct:
+
+\[
+11,\quad 22,\quad 33,\quad 23,\quad 13,\quad 12.
+\]
+
+The same is true for the pair $kl$.
+
+Therefore, the fourth-order tensor can be represented as a $6\times 6$ matrix:
+
+\begin{equation}
+    81 \longrightarrow 36.
+\end{equation}
+
+\section{Voigt notation}
+
+The six independent index pairs are commonly replaced by a single index:
+
+\begin{equation}
+\begin{aligned}
+    11 &\rightarrow 1,\\
+    22 &\rightarrow 2,\\
+    33 &\rightarrow 3,\\
+    23 &\rightarrow 4,\\
+    13 &\rightarrow 5,\\
+    12 &\rightarrow 6.
+\end{aligned}
+\end{equation}
+
+Then the stiffness tensor $C_{ijkl}$ becomes the matrix $C_{IJ}$, and the stress--strain relation may be written schematically as
+
+\begin{equation}
+\begin{pmatrix}
+\sigma_{11}\\
+\sigma_{22}\\
+\sigma_{33}\\
+\sigma_{23}\\
+\sigma_{13}\\
+\sigma_{12}
+\end{pmatrix}
+=
+\begin{pmatrix}
+C_{11}&C_{12}&C_{13}&C_{14}&C_{15}&C_{16}\\
+C_{21}&C_{22}&C_{23}&C_{24}&C_{25}&C_{26}\\
+C_{31}&C_{32}&C_{33}&C_{34}&C_{35}&C_{36}\\
+C_{41}&C_{42}&C_{43}&C_{44}&C_{45}&C_{46}\\
+C_{51}&C_{52}&C_{53}&C_{54}&C_{55}&C_{56}\\
+C_{61}&C_{62}&C_{63}&C_{64}&C_{65}&C_{66}
+\end{pmatrix}
+\begin{pmatrix}
+\epsilon_{11}\\
+\epsilon_{22}\\
+\epsilon_{33}\\
+\epsilon_{23}\\
+\epsilon_{13}\\
+\epsilon_{12}
+\end{pmatrix}.
+\end{equation}
+
+The exact factors of two associated with the shear strains depend on the convention used for Voigt notation, but the important point here is that the fourth-order tensor can be represented by a $6\times6$ matrix.
+
+\section{From 36 coefficients to 21: major symmetry}
+
+For a conventional elastic material, the elastic energy must be independent of the order in which stresses and strains are applied. This leads to the \emph{major symmetry}
+
+\begin{equation}
+    C_{ijkl} = C_{klij}.
+\end{equation}
+
+In Voigt notation, this becomes simply
+
+\begin{equation}
+    C_{IJ} = C_{JI}.
+\end{equation}
+
+Therefore, the $6\times6$ stiffness matrix is symmetric.
+
+A symmetric $6\times6$ matrix contains
+
+\begin{equation}
+    \frac{6(6+1)}{2} = 21
+\end{equation}
+
+independent coefficients.
+
+Thus,
+
+\begin{equation}
+    \boxed{81 \longrightarrow 36 \longrightarrow 21}.
+\end{equation}
+
+\begin{tcolorbox}[title=Interpretation]
+The reductions from 81 to 36 and then to 21 do not yet assume any special geological symmetry of the material.
+
+They follow from the symmetry of stress and strain and from the existence of an elastic strain-energy function.
+\end{tcolorbox}
+
+The most general linear elastic material therefore requires 21 independent stiffness coefficients. Such a material belongs to the \emph{triclinic} symmetry class.
+
+\section{Material symmetry}
+
+The next reductions come from assuming that the material itself has symmetry.
+
+The basic idea is:
+
+\begin{quote}
+If the material behaves identically after certain rotations or reflections, some stiffness coefficients must be equal and others must vanish.
+\end{quote}
+
+The greater the symmetry of the material, the fewer independent elastic constants are required.
+
+At one extreme, a completely isotropic material looks mechanically identical in every direction and requires only two independent elastic constants, for example the Lam\'e parameters
+
+\begin{equation}
+    \lambda,\qquad \mu.
+\end{equation}
+
+Thus,
+
+\begin{equation}
+    21 \longrightarrow 2
+\end{equation}
+
+for an isotropic elastic medium.
+
+\section{Transverse isotropy}
+
+A transversely isotropic material has one special direction, called the \emph{symmetry axis}.
+
+All directions perpendicular to this axis are mechanically equivalent.
+
+A good geological example is a finely layered sedimentary medium. The medium can behave differently parallel and perpendicular to the layering, while directions within the plane of the layers are equivalent.
+
+For a transversely isotropic medium, only five independent stiffness coefficients are required.
+
+\section{VTI: vertical transverse isotropy}
+
+For a VTI medium, the symmetry axis is vertical. If the vertical direction is $x_3=z$, then the horizontal directions $x_1$ and $x_2$ are equivalent.
+
+The stiffness matrix becomes
+
+\begin{equation}
+\mathbf C_{\mathrm{VTI}}
+=
+\begin{pmatrix}
+C_{11} & C_{12} & C_{13} & 0 & 0 & 0\\
+C_{12} & C_{11} & C_{13} & 0 & 0 & 0\\
+C_{13} & C_{13} & C_{33} & 0 & 0 & 0\\
+0 & 0 & 0 & C_{44} & 0 & 0\\
+0 & 0 & 0 & 0 & C_{44} & 0\\
+0 & 0 & 0 & 0 & 0 & C_{66}
+\end{pmatrix}.
+\end{equation}
+
+The coefficient $C_{12}$ is not independent because
+
+\begin{equation}
+    C_{12} = C_{11} - 2C_{66}.
+\end{equation}
+
+Therefore, a convenient set of five independent constants is
+
+\begin{equation}
+    \boxed{
+    C_{11},\quad
+    C_{33},\quad
+    C_{13},\quad
+    C_{44},\quad
+    C_{66}.
+    }
+\end{equation}
+
+Thus,
+
+\begin{equation}
+    \boxed{21 \longrightarrow 5}
+\end{equation}
+
+for transverse isotropy.
+
+\subsection{Physical interpretation}
+
+A useful approximate interpretation is:
+
+\begin{itemize}
+    \item $C_{33}$ mainly controls $P$-wave propagation along the vertical symmetry axis,
+    \item $C_{11}$ mainly controls horizontal $P$-wave propagation,
+    \item $C_{44}$ controls shear deformation involving the symmetry axis,
+    \item $C_{66}$ controls shear deformation in the horizontal plane,
+    \item $C_{13}$ couples vertical and horizontal deformation.
+\end{itemize}
+
+\section{Thomsen parameters}
+
+In exploration geophysics, VTI media are often described using vertical velocities and Thomsen anisotropy parameters instead of the stiffness coefficients directly.
+
+A common parameterization is
+
+\begin{equation}
+    V_{P0},\qquad
+    V_{S0},\qquad
+    \epsilon,\qquad
+    \delta,\qquad
+    \gamma,
+\end{equation}
+
+together with density $\rho$.
+
+The vertical velocities are related to the stiffnesses by
+
+\begin{equation}
+    C_{33} = \rho V_{P0}^2,
+\end{equation}
+
+and
+
+\begin{equation}
+    C_{44} = \rho V_{S0}^2.
+\end{equation}
+
+The Thomsen parameter $\epsilon$ is
+
+\begin{equation}
+    \epsilon
+    =
+    \frac{C_{11}-C_{33}}{2C_{33}},
+\end{equation}
+
+so that
+
+\begin{equation}
+    C_{11}
+    =
+    C_{33}(1+2\epsilon).
+\end{equation}
+
+Similarly,
+
+\begin{equation}
+    \gamma
+    =
+    \frac{C_{66}-C_{44}}{2C_{44}},
+\end{equation}
+
+and therefore
+
+\begin{equation}
+    C_{66}
+    =
+    C_{44}(1+2\gamma).
+\end{equation}
+
+The parameter $\delta$ controls the near-vertical angular dependence of $P$-wave propagation and determines the remaining coupling stiffness $C_{13}$.
+
+Thus, the Thomsen parameters provide a physically convenient description of the same five independent elastic constants of a VTI material.
+
+\section{From VTI to TTI}
+
+TTI stands for \emph{Tilted Transverse Isotropy}.
+
+An important conceptual point is that TTI is not a new intrinsic material symmetry class. It is still a transversely isotropic material.
+
+The difference is simply the orientation of the symmetry axis.
+
+For VTI,
+
+\begin{equation}
+    \text{symmetry axis} = \text{vertical}.
+\end{equation}
+
+For TTI,
+
+\begin{equation}
+    \text{symmetry axis} = \text{tilted}.
+\end{equation}
+
+This is useful for describing dipping sedimentary layers.
+
+In a local coordinate system aligned with the layers, the medium can first be described as VTI using the five independent stiffness coefficients
+
+\begin{equation}
+    C_{11},\quad C_{33},\quad C_{13},\quad C_{44},\quad C_{66}.
+\end{equation}
+
+The stiffness tensor is then rotated into the global computational coordinates.
+
+If $R$ is the rotation matrix, the rotated fourth-order tensor is
+
+\begin{equation}
+    C^{\mathrm{TTI}}_{ijkl}
+    =
+    R_{im}R_{jn}R_{kp}R_{lq}
+    C^{\mathrm{VTI}}_{mnpq}.
+\end{equation}
+
+For an introductory course, the main idea is more important than memorizing the full tensor rotation:
+
+\begin{equation}
+\boxed{
+\text{Construct VTI in coordinates aligned with the layers}
+\quad\longrightarrow\quad
+\text{rotate the tensor into the global coordinates}.
+}
+\end{equation}
+
+In a two-dimensional $x$--$z$ problem, the orientation is commonly specified by a single tilt angle $\theta$.
+
+In three dimensions, two angles are generally required to specify the orientation of the symmetry axis, for example tilt and azimuth.
+
+\section{Summary}
+
+The progression from the completely general stiffness tensor to commonly used geophysical models can be summarized as
+
+\begin{equation}
+\boxed{
+\begin{array}{rcl}
+3^4=81
+&\longrightarrow&
+\text{general fourth-order tensor},
+\\[2mm]
+81\rightarrow36
+&\longrightarrow&
+\text{minor symmetries of stress and strain},
+\\[2mm]
+36\rightarrow21
+&\longrightarrow&
+\text{major symmetry from elastic energy},
+\\[2mm]
+21\rightarrow5
+&\longrightarrow&
+\text{transverse isotropy},
+\\[2mm]
+5
+&\longrightarrow&
+\text{VTI if the symmetry axis is vertical},
+\\[2mm]
+5+\text{orientation}
+&\longrightarrow&
+\text{TTI if the symmetry axis is tilted},
+\\[2mm]
+5\rightarrow2
+&\longrightarrow&
+\text{isotropy}.
+\end{array}
+}
+\end{equation}
+
+\begin{tcolorbox}[title=Key idea for students]
+The 81 components arise because the stiffness is a fourth-order tensor in three dimensions.
+
+Symmetries of stress, strain, and elastic energy reduce the number of independent coefficients to 21.
+
+Material symmetry reduces the number further. A transversely isotropic material requires five independent elastic constants. If its symmetry axis is vertical, the medium is VTI. If the same symmetry axis is tilted, the medium is TTI.
+\end{tcolorbox}
+
+\end{document}

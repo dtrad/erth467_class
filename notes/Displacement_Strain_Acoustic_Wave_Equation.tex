@@ -1,0 +1,489 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+
+\title{Displacement, Strain, and the Acoustic Wave Equation}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Displacement as a perturbation from equilibrium}
+
+Consider a material particle whose equilibrium, or reference, position is
+
+\begin{equation}
+    \bm{x} = (x_1,x_2,x_3).
+\end{equation}
+
+After the medium is disturbed, the particle moves to a new position
+
+\begin{equation}
+    \bm{x}' = \bm{x} + \bm{u}(\bm{x},t),
+\end{equation}
+
+where
+
+\begin{equation}
+    \boxed{
+    \bm{u}(\bm{x},t)
+    =
+    \bm{x}'-\bm{x}
+    }
+\end{equation}
+
+is the displacement vector.
+
+Thus, $\bm{u}$ does \emph{not} represent the absolute position of the particle with respect to the coordinate origin. Instead, it represents the perturbation of the particle away from its equilibrium position.
+
+\begin{tcolorbox}[title=Key idea]
+\[
+\boxed{
+\text{current position}
+=
+\text{equilibrium position}
++
+\text{displacement}
+}
+\]
+
+or, equivalently,
+
+\[
+\boxed{
+\bm{x}'=\bm{x}+\bm{u}.
+}
+\]
+\end{tcolorbox}
+
+The coordinates $\bm{x}$ are therefore normally used to label the particle according to its reference position, while $\bm{u}(\bm{x},t)$ tells us how far that particle has moved.
+
+\section{Why strain depends on derivatives of displacement}
+
+The infinitesimal strain tensor is
+
+\begin{equation}
+    \boxed{
+    \epsilon_{ij}
+    =
+    \frac{1}{2}
+    \left(
+    \frac{\partial u_i}{\partial x_j}
+    +
+    \frac{\partial u_j}{\partial x_i}
+    \right).
+    }
+\end{equation}
+
+This expression shows that strain does not measure displacement itself. Instead, it measures how the displacement changes from one material particle to another.
+
+For example, suppose the entire medium undergoes a rigid translation,
+
+\begin{equation}
+    \bm{u}=\bm{c},
+\end{equation}
+
+where $\bm{c}$ is constant in space. Then
+
+\begin{equation}
+    \frac{\partial u_i}{\partial x_j}=0,
+\end{equation}
+
+and therefore
+
+\begin{equation}
+    \epsilon_{ij}=0.
+\end{equation}
+
+This is physically correct: the entire body has moved, but it has not been deformed.
+
+\section{The one-dimensional interpretation}
+
+In one spatial dimension,
+
+\begin{equation}
+    \epsilon_{xx}
+    =
+    \frac{\partial u}{\partial x}.
+\end{equation}
+
+Consider two nearby particles initially separated by a small distance $dx$. Their displacements are
+
+\[
+u(x,t)
+\]
+
+and
+
+\[
+u(x+dx,t).
+\]
+
+The difference between their displacements is approximately
+
+\begin{equation}
+    u(x+dx,t)-u(x,t)
+    \approx
+    \frac{\partial u}{\partial x}\,dx.
+\end{equation}
+
+Therefore:
+
+\begin{itemize}
+    \item if both particles move by the same amount, their separation does not change and the strain is zero;
+    \item if their displacements are different, their separation changes and the material is compressed or extended.
+\end{itemize}
+
+Thus strain measures \emph{relative motion between neighboring particles}.
+
+\section{Particle displacement and particle velocity}
+
+The displacement field $\bm{u}$ also defines the particle velocity,
+
+\begin{equation}
+    \boxed{
+    \bm{v}
+    =
+    \frac{\partial \bm{u}}{\partial t}.
+    }
+\end{equation}
+
+This is the actual velocity of the material particles as the elastic or acoustic disturbance passes through the medium.
+
+The particle acceleration is
+
+\begin{equation}
+    \frac{\partial^2\bm{u}}{\partial t^2}.
+\end{equation}
+
+These quantities should be distinguished from the wave propagation velocity, such as $V_P$ or $V_S$. The particles oscillate locally, while the wave itself propagates through the medium.
+
+\section{Can displacement be used in a fluid?}
+
+Yes. Although acoustic wave propagation is often described using pressure, the displacement vector $\bm{u}$ is also a perfectly valid physical variable in a fluid.
+
+A fluid particle has an equilibrium position and can be displaced from it just like a particle in a solid:
+
+\begin{equation}
+    \bm{x}'=\bm{x}+\bm{u}(\bm{x},t).
+\end{equation}
+
+The important difference is not the existence of displacement, but the constitutive behavior of the material.
+
+A solid can support both
+
+\begin{itemize}
+    \item compression,
+    \item shear.
+\end{itemize}
+
+An ideal acoustic fluid can support compression but cannot support static shear stress.
+
+Therefore, only the volumetric part of the deformation is important for acoustic propagation.
+
+\section{Volumetric strain}
+
+The divergence of the displacement,
+
+\begin{equation}
+    \nabla\cdot\bm{u},
+\end{equation}
+
+measures the local fractional change in volume for small deformations.
+
+In Cartesian coordinates,
+
+\begin{equation}
+    \nabla\cdot\bm{u}
+    =
+    \frac{\partial u_x}{\partial x}
+    +
+    \frac{\partial u_y}{\partial y}
+    +
+    \frac{\partial u_z}{\partial z}.
+\end{equation}
+
+If
+
+\begin{equation}
+    \nabla\cdot\bm{u}>0,
+\end{equation}
+
+the local volume has increased.
+
+If
+
+\begin{equation}
+    \nabla\cdot\bm{u}<0,
+\end{equation}
+
+the medium has been compressed.
+
+For an acoustic fluid, the pressure perturbation is related to the volumetric strain by
+
+\begin{equation}
+    \boxed{
+    p=-K\,\nabla\cdot\bm{u},
+    }
+\end{equation}
+
+where $K$ is the bulk modulus.
+
+The minus sign has a simple physical meaning: compression corresponds to
+
+\[
+\nabla\cdot\bm{u}<0,
+\]
+
+and therefore produces a positive pressure perturbation,
+
+\[
+p>0.
+\]
+
+\section{Equation of motion in a fluid}
+
+Newton's second law for an acoustic fluid can be written as
+
+\begin{equation}
+    \boxed{
+    \rho
+    \frac{\partial^2\bm{u}}{\partial t^2}
+    =
+    -\nabla p,
+    }
+\end{equation}
+
+where $\rho$ is density.
+
+Substituting
+
+\begin{equation}
+    p=-K\nabla\cdot\bm{u}
+\end{equation}
+
+gives
+
+\begin{equation}
+    \rho
+    \frac{\partial^2\bm{u}}{\partial t^2}
+    =
+    \nabla\left(K\nabla\cdot\bm{u}\right).
+\end{equation}
+
+Thus the acoustic wave equation can be written directly in terms of particle displacement:
+
+\begin{equation}
+    \boxed{
+    \rho
+    \frac{\partial^2\bm{u}}{\partial t^2}
+    =
+    \nabla\left(K\nabla\cdot\bm{u}\right).
+    }
+\end{equation}
+
+For a homogeneous medium, $K$ and $\rho$ are constants. Defining
+
+\begin{equation}
+    c^2=\frac{K}{\rho},
+\end{equation}
+
+we obtain
+
+\begin{equation}
+    \frac{\partial^2\bm{u}}{\partial t^2}
+    =
+    c^2
+    \nabla\left(\nabla\cdot\bm{u}\right).
+\end{equation}
+
+\section{Why acoustic displacement is longitudinal}
+
+An acoustic fluid does not support shear waves. Therefore, acoustic particle motion is longitudinal: the particle displacement is locally associated with compression and expansion rather than shear deformation.
+
+For a purely acoustic displacement field,
+
+\begin{equation}
+    \nabla\times\bm{u}=0.
+\end{equation}
+
+Using the vector identity
+
+\begin{equation}
+    \nabla^2\bm{u}
+    =
+    \nabla(\nabla\cdot\bm{u})
+    -
+    \nabla\times(\nabla\times\bm{u}),
+\end{equation}
+
+the condition
+
+\begin{equation}
+    \nabla\times\bm{u}=0
+\end{equation}
+
+gives
+
+\begin{equation}
+    \nabla(\nabla\cdot\bm{u})
+    =
+    \nabla^2\bm{u}.
+\end{equation}
+
+Consequently, in a homogeneous acoustic medium,
+
+\begin{equation}
+    \boxed{
+    \frac{\partial^2\bm{u}}{\partial t^2}
+    =
+    c^2\nabla^2\bm{u}.
+    }
+\end{equation}
+
+Thus the familiar wave equation can also be written for the displacement vector.
+
+\section{Why pressure is usually preferred in acoustics}
+
+Although displacement is physically meaningful in a fluid, pressure is often more convenient.
+
+A three-dimensional displacement field is a vector:
+
+\begin{equation}
+    \bm{u}=
+    \begin{pmatrix}
+    u_x\\
+    u_y\\
+    u_z
+    \end{pmatrix}.
+\end{equation}
+
+Pressure, on the other hand, is a scalar:
+
+\begin{equation}
+    p=p(\bm{x},t).
+\end{equation}
+
+Because an ideal acoustic fluid supports only compressional waves, one scalar variable is sufficient to describe the propagating mechanical mode.
+
+This is why pressure is commonly used in acoustic modeling even though the actual material particles still undergo vector displacement.
+
+\begin{tcolorbox}[title=Useful comparison]
+\[
+\boxed{
+\begin{array}{ccl}
+\text{Elastic solid}
+&:&
+\bm{u}\ \text{is natural because compression and shear are present},
+\\[2mm]
+\text{Acoustic fluid}
+&:&
+\bm{u}\ \text{is valid, but only its compressional part propagates},
+\\[2mm]
+&&
+p\ \text{provides a convenient scalar description}.
+\end{array}
+}
+\]
+\end{tcolorbox}
+
+\section{Connection between elasticity and acoustics}
+
+For an isotropic elastic solid, the stress tensor is
+
+\begin{equation}
+    \bm{\sigma}
+    =
+    \lambda(\nabla\cdot\bm{u})\bm{I}
+    +
+    2\mu\bm{\epsilon},
+\end{equation}
+
+where $\lambda$ and $\mu$ are the Lam\'e parameters.
+
+The parameter $\mu$ is the shear modulus. A fluid cannot sustain shear stress, so in the acoustic limit,
+
+\begin{equation}
+    \mu=0.
+\end{equation}
+
+The stress tensor therefore becomes purely isotropic:
+
+\begin{equation}
+    \bm{\sigma}
+    =
+    K(\nabla\cdot\bm{u})\bm{I},
+\end{equation}
+
+where $K$ is the bulk modulus.
+
+Fluid stress is conventionally written as
+
+\begin{equation}
+    \bm{\sigma}=-p\bm{I}.
+\end{equation}
+
+Comparing the two expressions gives
+
+\begin{equation}
+    \boxed{
+    p=-K\nabla\cdot\bm{u}.
+    }
+\end{equation}
+
+This provides a useful conceptual bridge:
+
+\begin{equation}
+    \boxed{
+    \text{acoustic wave propagation can be viewed as the compressional limit of elasticity.}
+    }
+\end{equation}
+
+\section{Summary}
+
+The main ideas are:
+
+\begin{enumerate}
+    \item $\bm{u}$ is the displacement of a material particle from its equilibrium position, not its absolute position.
+
+    \item Strain depends on spatial derivatives of $\bm{u}$ because deformation is caused by relative displacement between neighboring particles.
+
+    \item The particle velocity is
+    \[
+        \bm{v}=\frac{\partial\bm{u}}{\partial t}.
+    \]
+
+    \item Displacement can be used to describe waves in both solids and fluids.
+
+    \item In a fluid, only volumetric deformation is relevant:
+    \[
+        \nabla\cdot\bm{u}.
+    \]
+
+    \item The acoustic pressure perturbation is
+    \[
+        p=-K\nabla\cdot\bm{u}.
+    \]
+
+    \item The displacement-form acoustic wave equation is
+    \[
+        \rho\frac{\partial^2\bm{u}}{\partial t^2}
+        =
+        \nabla\left(K\nabla\cdot\bm{u}\right).
+    \]
+
+    \item Pressure is usually preferred in acoustic modeling because it reduces the problem to a scalar field.
+\end{enumerate}
+
+\begin{tcolorbox}[title=Central physical interpretation]
+The particles of a medium do not travel with the wave over large distances. They oscillate around their equilibrium positions.
+
+The displacement field $\bm{u}$ describes those local perturbations, while the wave equation describes how those perturbations propagate through the medium.
+\end{tcolorbox}
+
+\end{document}

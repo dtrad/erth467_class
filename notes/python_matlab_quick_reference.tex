@@ -1,0 +1,219 @@
+\documentclass[9pt]{extarticle}
+
+\usepackage[margin=0.45in]{geometry}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.05}
+\pagestyle{plain}
+
+\titleformat{\section}{\normalsize\bfseries}{}{0pt}{}
+\titlespacing*{\section}{0pt}{4pt}{2pt}
+
+\lstdefinestyle{code}{
+  basicstyle=\ttfamily\footnotesize,
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false,
+  breaklines=true,
+  backgroundcolor=\color{gray!8},
+  frame=single,
+  rulecolor=\color{gray!35},
+  framerule=0.3pt,
+  xleftmargin=2pt,
+  xrightmargin=2pt,
+  aboveskip=2pt,
+  belowskip=2pt
+}
+
+\newcommand{\py}[1]{\lstinline[style=code]!#1!}
+\newcommand{\matlab}[1]{\lstinline[style=code]!#1!}
+
+\begin{document}
+
+\begin{center}
+{\LARGE \textbf{Python/NumPy/Matplotlib to MATLAB Quick Reference}}\\[3pt]
+{\small A compact syntax guide for students moving from Python to MATLAB}
+\end{center}
+
+\vspace{-4pt}
+\textbf{Main idea:} NumPy arrays and MATLAB matrices are very similar, but indexing differs: Python starts at \textbf{0}, MATLAB starts at \textbf{1}. Python uses functions such as \py{np.sin(x)}, whereas MATLAB often uses nearly the same mathematical name, e.g. \matlab{sin(x)}.
+
+\section*{1. Variables, vectors, and matrices}
+
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.28\textwidth} X X}
+\toprule
+\textbf{Operation} & \textbf{Python / NumPy} & \textbf{MATLAB} \\
+\midrule
+Scalar & \py{x = 3.0} & \matlab{x = 3.0;} \\
+Row vector & \py{x = np.array([1,2,3])} & \matlab{x = [1 2 3];} \\
+Column vector & \py{x = np.array([[1],[2],[3]])} & \matlab{x = [1; 2; 3];} \\
+Matrix & \py{A = np.array([[1,2],[3,4]])} & \matlab{A = [1 2; 3 4];} \\
+Zeros & \py{np.zeros((3,4))} & \matlab{zeros(3,4)} \\
+Ones & \py{np.ones((3,4))} & \matlab{ones(3,4)} \\
+Identity matrix & \py{np.eye(4)} & \matlab{eye(4)} \\
+Sequence with step & \py{np.arange(0,10,2)} & \matlab{0:2:8} \\
+Equally spaced values & \py{np.linspace(0,1,6)} & \matlab{linspace(0,1,6)} \\
+Matrix size & \py{A.shape} & \matlab{size(A)} \\
+Number of elements & \py{A.size} & \matlab{numel(A)} \\
+Transpose & \py{A.T} & \matlab{A.'} \\
+\bottomrule
+\end{tabularx}
+
+\section*{2. Indexing and slicing}
+
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.28\textwidth} X X}
+\toprule
+\textbf{Operation} & \textbf{Python / NumPy} & \textbf{MATLAB} \\
+\midrule
+First element & \py{x[0]} & \matlab{x(1)} \\
+Third element & \py{x[2]} & \matlab{x(3)} \\
+First row & \py{A[0,:]} & \matlab{A(1,:)} \\
+Second column & \py{A[:,1]} & \matlab{A(:,2)} \\
+Rows 2--4 & \py{A[1:4,:]} & \matlab{A(2:4,:)} \\
+Last element & \py{x[-1]} & \matlab{x(end)} \\
+Every second element & \py{x[::2]} & \matlab{x(1:2:end)} \\
+Elements larger than 0 & \py{x[x > 0]} & \matlab{x(x > 0)} \\
+\bottomrule
+\end{tabularx}
+
+\textbf{Important:} Python slices exclude the final index. For example, \py{x[1:4]} contains indices 1, 2, and 3. MATLAB ranges include the final index, so \matlab{x(2:4)} contains elements 2, 3, and 4.
+
+\section*{3. Basic mathematical operations}
+
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.28\textwidth} X X}
+\toprule
+\textbf{Operation} & \textbf{Python / NumPy} & \textbf{MATLAB} \\
+\midrule
+Addition & \py{A + B} & \matlab{A + B} \\
+Element-by-element multiply & \py{A * B} & \matlab{A .* B} \\
+Matrix multiplication & \py{A @ B} & \matlab{A * B} \\
+Element-by-element division & \py{A / B} & \matlab{A ./ B} \\
+Element-by-element power & \py{A**2} & \matlab{A.^2} \\
+Square root & \py{np.sqrt(x)} & \matlab{sqrt(x)} \\
+Exponential & \py{np.exp(x)} & \matlab{exp(x)} \\
+Sine / cosine & \py{np.sin(x), np.cos(x)} & \matlab{sin(x), cos(x)} \\
+Absolute value & \py{np.abs(x)} & \matlab{abs(x)} \\
+Sum & \py{np.sum(x)} & \matlab{sum(x)} \\
+Mean & \py{np.mean(x)} & \matlab{mean(x)} \\
+Maximum & \py{np.max(x)} & \matlab{max(x)} \\
+Matrix inverse & \py{np.linalg.inv(A)} & \matlab{inv(A)} \\
+Solve $Ax=b$ & \py{x = np.linalg.solve(A,b)} & \matlab{x = A\\b;} \\
+\bottomrule
+\end{tabularx}
+
+\section*{4. Functions, loops, and conditions}
+
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.22\textwidth} X X}
+\toprule
+\textbf{Operation} & \textbf{Python} & \textbf{MATLAB} \\
+\midrule
+Simple function &
+\texttt{def f(x):}\\[-1pt]
+&
+\texttt{function y = f(x)}\\[-1pt]
+\texttt{\ \ \ \ return x**2 + 1}
+&
+\texttt{\ \ \ \ y = x.\^{}2 + 1;}\\[-1pt]
+&&\texttt{end} \\
+\addlinespace
+For loop &
+\texttt{for i in range(5):}\\[-1pt]
+&
+\texttt{for i = 1:5}\\[-1pt]
+\texttt{\ \ \ \ print(i)}
+&
+\texttt{\ \ \ \ disp(i)}\\[-1pt]
+&&\texttt{end} \\
+\addlinespace
+If statement &
+\texttt{if x > 0:}\\[-1pt]
+&
+\texttt{if x > 0}\\[-1pt]
+\texttt{\ \ \ \ y = 1} & \texttt{\ \ \ \ y = 1;}\\[-1pt]
+\texttt{else:} & \texttt{else}\\[-1pt]
+\texttt{\ \ \ \ y = -1} & \texttt{\ \ \ \ y = -1;}\\[-1pt]
+&\texttt{end}\\
+\bottomrule
+\end{tabularx}
+
+\section*{5. Plotting: Matplotlib and MATLAB}
+
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.24\textwidth} X X}
+\toprule
+\textbf{Operation} & \textbf{Python / Matplotlib} & \textbf{MATLAB} \\
+\midrule
+Basic line plot & \py{plt.plot(x,y); plt.show()} & \matlab{plot(x,y)} \\
+Line with symbols & \py{plt.plot(x,y,'o-')} & \matlab{plot(x,y,'o-')} \\
+Axis labels & \py{plt.xlabel('Time'); plt.ylabel('Amplitude')} & \matlab{xlabel('Time'); ylabel('Amplitude')} \\
+Title & \py{plt.title('Signal')} & \matlab{title('Signal')} \\
+Grid & \py{plt.grid(True)} & \matlab{grid on} \\
+Axis limits & \py{plt.xlim(0,10)} & \matlab{xlim([0 10])} \\
+Two curves & \py{plt.plot(x,y1); plt.plot(x,y2)} & \matlab{plot(x,y1); hold on; plot(x,y2)} \\
+Legend & \py{plt.legend(['A','B'])} & \matlab{legend('A','B')} \\
+Image / matrix & \py{plt.imshow(A, aspect='auto')} & \matlab{imagesc(A)} \\
+Colorbar & \py{plt.colorbar()} & \matlab{colorbar} \\
+\bottomrule
+\end{tabularx}
+
+\section*{6. A small side-by-side example}
+
+\begin{minipage}[t]{0.48\textwidth}
+\textbf{Python / NumPy / Matplotlib}
+\begin{lstlisting}[style=code]
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(0, 2*np.pi, 200)
+y = np.sin(x)
+
+A = np.array([[1,2],[3,4]])
+b = np.array([1,2])
+u = np.linalg.solve(A,b)
+
+plt.plot(x,y)
+plt.xlabel('x')
+plt.ylabel('sin(x)')
+plt.grid(True)
+plt.show()
+\end{lstlisting}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+\textbf{MATLAB}
+\begin{lstlisting}[style=code]
+x = linspace(0,2*pi,200);
+y = sin(x);
+
+A = [1 2; 3 4];
+b = [1; 2];
+u = A\b;
+
+plot(x,y)
+xlabel('x')
+ylabel('sin(x)')
+grid on
+\end{lstlisting}
+\end{minipage}
+
+\vspace{4pt}
+\textbf{MATLAB reminders:}
+\begin{itemize}[leftmargin=1.2em,itemsep=0pt,topsep=2pt]
+    \item A semicolon suppresses output: \matlab{x = 3;} versus \matlab{x = 3}.
+    \item Use \matlab{.*}, \matlab{./}, and \matlab{.^} for element-by-element operations.
+    \item Use \matlab{*} for matrix multiplication.
+    \item MATLAB indexing begins at 1; Python indexing begins at 0.
+\end{itemize}
+
+\end{document}

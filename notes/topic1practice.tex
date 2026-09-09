@@ -1,0 +1,197 @@
+\documentclass{beamer}
+
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{tcolorbox}
+
+\title{Topic 1-practice}
+\author{Daniel Trad}
+\date{}
+
+\begin{document}
+
+%------------------------------------------------
+\frame{\titlepage}
+
+%------------------------------------------------
+\begin{frame}{Pressure and Displacement Formulations}
+\small
+
+Consider acoustic wave propagation in a homogeneous fluid.
+
+\vspace{0.2cm}
+
+The wavefield may be described either by the scalar pressure field
+\[
+\frac{\partial^2 p}{\partial t^2}=v^2\nabla^2 p,
+\]
+or by the particle displacement vector $ \bm{u}(\bm{x},t)=\begin{bmatrix}u_x \\ u_y \\ u_z\end{bmatrix}.$
+
+\begin{tcolorbox}[title=Given information,colback=blue!5!white,colframe=blue!60!black]
+Assume that pressure is related to displacement through
+\[
+p=-K\,\nabla\cdot\bm{u},
+\]
+where \(K\) is the bulk modulus, and $\nabla\cdot\bm{u}=\frac{\partial u_x}{\partial x}+\frac{\partial u_y}{\partial y}+\frac{\partial u_z}{\partial z}.$
+\vspace{0.15cm}
+Also assume that each displacement component satisfies
+\[
+\frac{\partial^2 u_i}{\partial t^2}=v^2\nabla^2 u_i,
+\qquad i=x,y,z.
+\]
+\end{tcolorbox}
+
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}{Discussion Questions}
+\small
+
+Discuss the following:
+
+\begin{enumerate}
+    \item Why is \(p\) a \textbf{scalar} field, while \(\bm{u}\) requires \textbf{three components} in 3D?
+    
+    \vspace{0.15cm}
+    
+    \item Take the divergence of the three displacement equations. Show that \(\nabla\cdot\bm{u}\) satisfies a scalar wave equation, and therefore so does \(p\).
+    
+    \vspace{0.15cm}
+    
+    \item What information about the displacement field is retained by \(\nabla\cdot\bm{u}\), and what information is lost?
+    
+    \vspace{0.15cm}
+    
+    \item Why is pressure often a more economical variable for describing acoustic waves in a fluid?
+    
+    \vspace{0.15cm}
+    
+    \item Does knowing \(p(\bm{x},t)\) uniquely determine all three components \(u_x,u_y,u_z\)? Explain.
+\end{enumerate}
+
+\vspace{0.25cm}
+
+\begin{block}{Conclusion to discuss}
+In what sense can one scalar pressure equation replace three displacement equations, and in what sense are the two formulations not completely identical?
+\end{block}
+
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}{Instructor Solution / Sketch}
+\small
+
+\begin{enumerate}
+    \item \textbf{Scalar vs. vector:}  
+    Pressure \(p\) has one value at each point, so it is scalar.  
+    Displacement \(\bm{u}=(u_x,u_y,u_z)\) has three components, so it is vector-valued.
+
+    \vspace{0.15cm}
+
+    \item \textbf{Take the divergence of the displacement equations:}
+    \[
+    \frac{\partial^2 u_i}{\partial t^2}=v^2\nabla^2 u_i
+    \qquad (i=x,y,z).
+    \]
+    Apply \(\nabla\cdot\):
+    \[
+    \frac{\partial^2}{\partial t^2}(\nabla\cdot\bm{u})
+    =
+    v^2\nabla^2(\nabla\cdot\bm{u}).
+    \]
+    Since
+    \[
+    p=-K\,\nabla\cdot\bm{u},
+    \]
+    and \(K\) is constant, it follows that
+    \[
+    \frac{\partial^2 p}{\partial t^2}=v^2\nabla^2 p.
+    \]
+
+    \vspace{0.15cm}
+
+\end{enumerate}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}{Instructor Solution / Sketch}
+\small
+
+\begin{enumerate}
+    \setcounter{enumi}{2}
+
+
+    \item \textbf{What is retained / lost?}  
+    The divergence keeps the \textbf{compressional (volumetric)} part of motion.  
+    It loses the full directional information of \(\bm{u}\), especially any part not seen in \(\nabla\cdot\bm{u}\).
+
+    \vspace{0.15cm}
+
+    \item \textbf{Why pressure is economical:}  
+    For acoustic waves in fluids, the main physics is compressional, so one scalar \(p\) is often enough instead of three unknowns \(u_x,u_y,u_z\).
+
+    \vspace{0.15cm}
+
+    \item \textbf{Important subtlety:}  
+    Knowing \(p\) does \emph{not} generally determine the full displacement vector uniquely.  
+    Pressure determines \(\nabla\cdot\bm{u}\), not all components of \(\bm{u}\).
+
+\end{enumerate}
+
+\end{frame}
+
+
+
+%------------------------------------------------
+\begin{frame}{Reflection at the Free Surface and Multiples}
+%\footnotesize
+\scriptsize
+%\tiny
+Consider an upgoing primary wave reaching the Earth's surface.
+
+The pressure reflection coefficient for normal incidence is
+
+\[
+R=\frac{Z_2-Z_1}{Z_2+Z_1},
+\]
+
+where \(Z=\rho v\) is the acoustic impedance. At the free surface, 
+
+$Z_{\rm air}=\rho_{\rm air}v_{\rm air}\ll Z_{\rm earth},$
+and therefore $R_{\rm surface}=\frac{Z_{\rm air}-Z_{\rm earth}}{Z_{\rm air}+Z_{\rm earth}}\approx -1.$
+
+\begin{block}{Physical interpretation}
+If the upgoing primary arriving at the surface has amplitude \(P\),
+
+\[
+P_{\rm reflected}
+=
+R_{\rm surface}P
+\approx -P.
+\]
+
+Thus, the wave reflected back into the Earth has approximately
+\textbf{the same amplitude as the arriving primary}, but with
+\textbf{opposite polarity}.
+\end{block}
+
+This downgoing wave can reflect again from subsurface interfaces and
+return to the receivers as a \textbf{free-surface multiple}:
+
+\[
+\boxed{
+P
+\quad\xrightarrow{\text{free surface}}\quad
+-P
+\quad\xrightarrow{\text{subsurface reflection}}\quad
+M
+}
+\]
+
+Therefore, the free surface does not significantly attenuate the wave:
+it sends essentially the full primary amplitude back into the Earth,
+allowing strong multiples to be generated.
+
+\end{frame}
+
+\end{document}

@@ -1,0 +1,246 @@
+
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+
+\title{Surface-Related Multiples as a Feedback System}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Surface-related multiples can be understood naturally using the language of
+\emph{feedback systems}. The idea is simple: a primary reflection reaches the
+surface, is reflected back downward, interacts with the subsurface again, and
+therefore generates additional reflected arrivals. Repetition of this process
+creates higher-order multiples.
+
+We use the following geophysical notation:
+
+\begin{itemize}[leftmargin=2em]
+    \item $w$: source wavelet,
+    \item $P$: primary reflection response, or primary reflection operator,
+    \item $R$: reflection coefficient at the surface,
+    \item $M$: multiple contribution to the data.
+\end{itemize}
+
+Throughout this note, $*$ denotes convolution.
+
+\section{Primaries Without Feedback}
+
+If there were no reflection at the free surface, the source wavelet $w$ would
+propagate into the earth, interact with the subsurface reflectors, and generate
+the primary reflection response
+
+\begin{equation}
+d_P = P * w.
+\end{equation}
+
+Thus, $P$ represents the action of the subsurface on the incident wavelet.
+
+\section{The Surface as a Feedback Mechanism}
+
+When the primary wavefield reaches the surface, it is not necessarily removed
+from the system. Instead, it can be reflected back downward with reflection
+coefficient $R$.
+
+The reflected wave then propagates through the earth again and interacts once
+more with the primary reflection operator $P$.
+
+This produces the first-order multiple:
+
+\begin{equation}
+M_1 = P * R * P * w.
+\end{equation}
+
+The physical sequence is therefore
+
+\begin{equation}
+w
+\;\longrightarrow\;
+P
+\;\longrightarrow\;
+R
+\;\longrightarrow\;
+P.
+\end{equation}
+
+The first application of $P$ creates the primary reflection. The factor $R$
+represents reflection at the surface, and the second application of $P$
+represents another interaction with the subsurface.
+
+\section{Higher-Order Multiples}
+
+After the first-order multiple reaches the surface, it can again be reflected
+downward. This produces a second-order multiple,
+
+\begin{equation}
+M_2 = P * R * P * R * P * w.
+\end{equation}
+
+Similarly, the third-order multiple is
+
+\begin{equation}
+M_3 = P * R * P * R * P * R * P * w.
+\end{equation}
+
+Each additional trip through the feedback loop introduces another factor
+$R * P$.
+
+The total recorded wavefield can therefore be written as
+
+\begin{equation}
+d =
+P*w
++
+P*R*P*w
++
+P*R*P*R*P*w
++\cdots .
+\end{equation}
+
+The first term is the primary contribution, while the remaining terms are
+surface-related multiples.
+
+Defining the total multiple contribution as $M$,
+
+\begin{equation}
+M =
+P*R*P*w
++
+P*R*P*R*P*w
++\cdots .
+\end{equation}
+
+Hence,
+
+\begin{equation}
+d = P*w + M.
+\end{equation}
+
+\section{Operator Form}
+
+If convolution symbols are omitted for compactness, the data can be written as
+
+\begin{equation}
+d = Pw + PRPw + PRPRPw + \cdots .
+\end{equation}
+
+Factoring out the first primary operator gives
+
+\begin{equation}
+d =
+P
+\left[
+I + RP + (RP)^2 + (RP)^3 + \cdots
+\right]w.
+\end{equation}
+
+The expression inside brackets is a geometric operator series. Formally, when
+the series converges,
+
+\begin{equation}
+I + RP + (RP)^2 + \cdots = (I-RP)^{-1}.
+\end{equation}
+
+Therefore,
+
+\begin{equation}
+\boxed{
+d = P(I-RP)^{-1}w
+}
+\end{equation}
+
+which has the characteristic form of a system with feedback.
+
+\section{Feedback Interpretation}
+
+The key physical interpretation is that the primary wavefield is
+\emph{fed back} into the earth after reflecting at the surface.
+
+A simplified feedback representation is shown in Figure~\ref{fig:feedback}.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+    node distance=1.8cm,
+    block/.style={draw, rectangle, minimum width=1.5cm, minimum height=0.9cm},
+    sum/.style={draw, circle, inner sep=1.5pt},
+    >=Latex
+]
+
+\node (w) {$w$};
+\node[block, right=of w] (P) {$P$};
+\node[sum, right=of P] (sum) {$+$};
+\node[right=of sum] (d) {$d$};
+
+\draw[->] (w) -- (P);
+\draw[->] (P) -- (sum);
+\draw[->] (sum) -- (d);
+
+\node[block, below=1.4cm of sum] (R) {$R$};
+\node[block, left=of R] (Pf) {$P$};
+
+\draw[->] (d) |- (R);
+\draw[->] (R) -- (Pf);
+\draw[->] (Pf) -| (sum);
+
+\end{tikzpicture}
+\caption{Conceptual representation of surface-related multiples as a feedback
+system. The wavefield reaching the surface is reflected by $R$ and re-enters
+the earth, where it interacts again with the primary reflection operator $P$.}
+\label{fig:feedback}
+\end{figure}
+
+Each traversal of the feedback path generates one additional order of multiple.
+
+\section{Role of the Surface Reflection Coefficient}
+
+For pressure waves at an ideal free surface, the reflection coefficient is
+often approximately
+
+\begin{equation}
+R \approx -1.
+\end{equation}
+
+The negative sign represents the polarity reversal associated with reflection
+of pressure at the free surface.
+
+Thus, the surface does more than merely return energy into the subsurface: it
+can also change the phase or polarity of that returned wavefield.
+
+\section{Main Interpretation}
+
+The feedback view provides a compact way to understand multiple generation:
+
+\begin{quote}
+A primary reflection reaches the surface. The surface reflects it back into the
+earth. The returned wavefield interacts again with the subsurface reflectors,
+creating a multiple. Repetition of this feedback process creates higher-order
+multiples.
+\end{quote}
+
+In this interpretation,
+
+\begin{equation}
+\boxed{
+\text{primaries become the input to the feedback loop that generates multiples.}
+}
+\end{equation}
+
+This viewpoint is useful because it connects geophysical multiple prediction
+with the general theory of systems with feedback. If the primary reflection
+operator $P$ and the surface reflection operator $R$ can be estimated, the
+multiple wavefield can in principle be predicted by repeatedly applying the
+feedback process.
+
+\end{document}

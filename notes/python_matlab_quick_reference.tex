@@ -120,31 +120,44 @@ Solve $Ax=b$ & \py{x = np.linalg.solve(A,b)} & \matlab{x = A\\b;} \\
 \textbf{Operation} & \textbf{Python} & \textbf{MATLAB} \\
 \midrule
 Simple function &
+\begin{tabular}[t]{@{}l@{}}
 \texttt{def f(x):}\\[-1pt]
-&
-\texttt{function y = f(x)}\\[-1pt]
 \texttt{\ \ \ \ return x**2 + 1}
+\end{tabular}
 &
+\begin{tabular}[t]{@{}l@{}}
+\texttt{function y = f(x)}\\[-1pt]
 \texttt{\ \ \ \ y = x.\^{}2 + 1;}\\[-1pt]
-&&\texttt{end} \\
+\texttt{end}
+\end{tabular} \\
 \addlinespace
 For loop &
+\begin{tabular}[t]{@{}l@{}}
 \texttt{for i in range(5):}\\[-1pt]
-&
-\texttt{for i = 1:5}\\[-1pt]
 \texttt{\ \ \ \ print(i)}
+\end{tabular}
 &
+\begin{tabular}[t]{@{}l@{}}
+\texttt{for i = 1:5}\\[-1pt]
 \texttt{\ \ \ \ disp(i)}\\[-1pt]
-&&\texttt{end} \\
+\texttt{end}
+\end{tabular} \\
 \addlinespace
 If statement &
+\begin{tabular}[t]{@{}l@{}}
 \texttt{if x > 0:}\\[-1pt]
+\texttt{\ \ \ \ y = 1}\\[-1pt]
+\texttt{else:}\\[-1pt]
+\texttt{\ \ \ \ y = -1}
+\end{tabular}
 &
+\begin{tabular}[t]{@{}l@{}}
 \texttt{if x > 0}\\[-1pt]
-\texttt{\ \ \ \ y = 1} & \texttt{\ \ \ \ y = 1;}\\[-1pt]
-\texttt{else:} & \texttt{else}\\[-1pt]
-\texttt{\ \ \ \ y = -1} & \texttt{\ \ \ \ y = -1;}\\[-1pt]
-&\texttt{end}\\
+\texttt{\ \ \ \ y = 1;}\\[-1pt]
+\texttt{else}\\[-1pt]
+\texttt{\ \ \ \ y = -1;}\\[-1pt]
+\texttt{end}
+\end{tabular} \\
 \bottomrule
 \end{tabularx}
 

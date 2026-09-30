@@ -1,0 +1,443 @@
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\newcommand{\sinc}{\operatorname{sinc}}
+
+\title{Fourier Transform:\\
+Phase, Sampling, and Time--Frequency Localization}
+\author{Signal Processing}
+\date{}
+
+\begin{document}
+\maketitle
+
+The Fourier transform describes a signal in terms of its frequency
+components. This handout distinguishes three related ideas:
+the amplitude and phase of a component, the sampling of the time and
+frequency axes, and the localization of a signal in these domains.
+
+\section{Continuous Fourier transform}
+
+We use frequency $f$ in hertz and angular frequency
+$\omega=2\pi f$. Our transform convention is
+\begin{equation}
+\boxed{
+X(f)=\int_{-\infty}^{\infty}x(t)e^{-i2\pi ft}\,dt,
+\qquad
+x(t)=\int_{-\infty}^{\infty}X(f)e^{i2\pi ft}\,df.
+}
+\end{equation}
+
+Euler's identity,
+\[
+e^{i\theta}=\cos\theta+i\sin\theta,
+\]
+connects the complex exponential representation with cosine and sine.
+
+For a real signal,
+\[
+X(-f)=X(f)^*,
+\]
+where the asterisk denotes complex conjugation. Thus, positive and
+negative frequencies are related rather than independent.
+
+\section{Cosine--sine coefficients and amplitude--phase}
+
+At one nonzero frequency, a real sinusoidal component can be written as
+\begin{equation}
+x_\omega(t)=a\cos(\omega t)+b\sin(\omega t).
+\end{equation}
+The coefficients $a$ and $b$ are two independent real numbers.
+
+Using
+\[
+\cos(\omega t-\phi)
+=\cos\phi\cos(\omega t)+\sin\phi\sin(\omega t),
+\]
+the same component becomes
+\begin{equation}
+\boxed{x_\omega(t)=A\cos(\omega t-\phi)}
+\end{equation}
+with
+\begin{equation}
+\boxed{
+a=A\cos\phi,\qquad b=A\sin\phi,\qquad
+A=\sqrt{a^2+b^2},\qquad
+\phi=\operatorname{atan2}(b,a).
+}
+\end{equation}
+If $A=0$, phase is undefined.
+
+These are Cartesian and polar descriptions of the same coefficient
+vector: $(a,b)$ gives its coordinates, while $(A,\phi)$ gives its
+length and direction.
+
+\subsection*{Why are cosine and sine $90^\circ$ apart?}
+
+The fixed basis functions satisfy
+\[
+\sin(\omega t)=\cos\left(\omega t-\frac{\pi}{2}\right).
+\]
+They are therefore \emph{in quadrature}: their relative phase is
+$90^\circ$.
+
+The phase $\phi$ describes the resulting sinusoid relative to the
+time origin. It does not change the relative phase of the fixed
+basis functions.
+
+One could introduce separate shifts,
+\[
+a\cos(\omega t+\alpha)+b\sin(\omega t+\beta),
+\]
+but expanding gives
+\[
+(a\cos\alpha+b\sin\beta)\cos(\omega t)
++(-a\sin\alpha+b\cos\beta)\sin(\omega t).
+\]
+Thus, separate shifts produce another cosine--sine combination;
+the four parameters are redundant.
+
+\subsection*{Connection with a complex Fourier coefficient}
+
+With the synthesis exponential $e^{i\omega t}$,
+\[
+x_\omega(t)=\operatorname{Re}\{C e^{i\omega t}\},
+\qquad C=a-ib.
+\]
+Consequently,
+\[
+|C|=A,\qquad \arg C=-\phi.
+\]
+The minus sign follows from our choice
+$x_\omega(t)=A\cos(\omega t-\phi)$.
+
+For a Fourier series written using both positive and negative
+frequencies, the corresponding coefficients are
+\[
+c_+=\frac{a-ib}{2},\qquad c_-=\frac{a+ib}{2},
+\]
+because
+\[
+x_\omega(t)=c_+e^{i\omega t}+c_-e^{-i\omega t}.
+\]
+
+\section{Sampling, frequency range, and frequency spacing}
+
+Use different symbols for sampling intervals and signal widths.
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Symbol & Meaning & Units\\
+\midrule
+$\delta t$ & Time sampling interval & s\\
+$\delta f$ & DFT frequency-bin spacing & Hz\\
+$T$ & DFT record duration & s\\
+$f_N$ & Nyquist frequency & Hz\\
+$\sigma_t$ & Energy-based temporal spread & s\\
+$\sigma_f$ & Energy-based spectral spread & Hz\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+For $N$ samples taken at $t_n=n\delta t$, $n=0,\ldots,N-1$,
+the DFT period is
+\[
+T=N\delta t.
+\]
+The elapsed time between the first and last samples is
+$(N-1)\delta t$; $N\delta t$ is the duration used in the DFT
+spacing relation.
+
+The DFT frequency spacing is
+\begin{equation}
+\boxed{
+\delta f=\frac{1}{N\delta t}=\frac{1}{T},
+\qquad N\delta t\,\delta f=1.
+}
+\end{equation}
+
+The Nyquist frequency is
+\begin{equation}
+\boxed{f_N=\frac{1}{2\delta t}.}
+\end{equation}
+To avoid aliasing, the sampled signal must have its spectral content
+restricted below this limit, normally through appropriate filtering.
+
+These equations express different controls:
+\begin{itemize}
+\item Smaller $\delta t$ increases the available frequency range.
+\item Longer observation duration $T$ decreases the frequency-bin
+spacing.
+\end{itemize}
+
+The full DFT frequency range has width
+\[
+N\delta f=\frac{1}{\delta t}=2f_N.
+\]
+When expressed using signed frequencies, this is a frequency interval
+of width $2f_N$, conventionally chosen around zero.
+
+\subsection*{Example}
+
+With
+\[
+\delta t=0.001\ {\rm s},\qquad N=1000,
+\]
+we obtain
+\[
+T=1\ {\rm s},\qquad
+\delta f=1\ {\rm Hz},\qquad f_N=500\ {\rm Hz}.
+\]
+Recording for $2$ s at the same sampling interval gives
+$\delta f=0.5$ Hz, while $f_N$ remains $500$ Hz.
+
+\subsection*{Frequency spacing versus resolving power}
+
+Frequency-bin spacing describes the DFT grid. The ability to
+distinguish nearby spectral components also depends on observation
+duration, window shape, noise, and the estimation method.
+
+For a rectangular observation window, the spectral main-lobe width
+scales as $1/T$. Increasing the duration of actual observations can
+therefore improve frequency discrimination.
+
+Appending zeros decreases the DFT bin spacing but adds no observations.
+It samples the existing spectrum more densely; it does not narrow
+the spectral main lobe or improve the resolving power of the data.
+
+\section{Fourier transform of a boxcar}
+
+Consider a unit-height boxcar of duration $L$:
+\[
+x(t)=
+\begin{cases}
+1,& |t|\leq L/2,\\
+0,& |t|>L/2.
+\end{cases}
+\]
+We use $L$ for the pulse duration to distinguish it from the DFT
+record duration $T$.
+
+Its Fourier transform is
+\begin{align}
+X(f)
+&=\int_{-L/2}^{L/2}e^{-i2\pi ft}\,dt\\
+&=\left[\frac{e^{-i2\pi ft}}{-i2\pi f}\right]_{-L/2}^{L/2}\\
+&=\frac{e^{-i\pi fL}-e^{i\pi fL}}{-i2\pi f}\\
+&=\frac{\sin(\pi fL)}{\pi f}.
+\end{align}
+Define the normalized sinc function by
+\[
+\sinc(u)=\frac{\sin(\pi u)}{\pi u},\qquad \sinc(0)=1.
+\]
+Then
+\begin{equation}
+\boxed{
+\operatorname{rect}(t/L)
+\quad\longleftrightarrow\quad
+L\,\sinc(fL).
+}
+\end{equation}
+At $f=0$, the limit gives $X(0)=L$, equal to the area of the boxcar.
+
+The first spectral zeros occur at $f=\pm1/L$, so the main-lobe
+width between these zeros is
+\begin{equation}
+\boxed{W_{f,\mathrm{main}}=\frac{2}{L}.}
+\end{equation}
+A longer boxcar produces a narrower main lobe. Its abrupt edges
+produce sidelobes whose amplitude decays as $1/|f|$.
+
+Multiplication by a boxcar observation window convolves a signal's
+spectrum with this sinc function. This explains spectral broadening
+and leakage associated with finite rectangular records.
+
+\section{Fourier transform of a Gaussian}
+
+Let
+\[
+x(t)=e^{-t^2/(2s^2)},\qquad s>0.
+\]
+Here $s$ is the width parameter of the \emph{amplitude} Gaussian;
+it is not yet the energy-based standard deviation $\sigma_t$.
+
+Its transform is
+\[
+X(f)=\int_{-\infty}^{\infty}
+e^{-t^2/(2s^2)}e^{-i2\pi ft}\,dt.
+\]
+
+We can derive the result by differentiating with respect to $f$.
+Since
+\[
+x'(t)=-\frac{t}{s^2}x(t),
+\]
+we obtain
+\begin{align}
+X'(f)
+&=-i2\pi\int_{-\infty}^{\infty}
+t\,x(t)e^{-i2\pi ft}\,dt\\
+&=i2\pi s^2\int_{-\infty}^{\infty}
+x'(t)e^{-i2\pi ft}\,dt.
+\end{align}
+Integration by parts gives
+\[
+\int_{-\infty}^{\infty}x'(t)e^{-i2\pi ft}\,dt
+=i2\pi fX(f),
+\]
+because the boundary term vanishes. Therefore,
+\[
+X'(f)=-4\pi^2s^2fX(f).
+\]
+Solving this differential equation,
+\[
+X(f)=X(0)e^{-2\pi^2s^2f^2}.
+\]
+The Gaussian integral gives
+\[
+X(0)=\int_{-\infty}^{\infty}e^{-t^2/(2s^2)}\,dt
+=\sqrt{2\pi}\,s.
+\]
+Thus,
+\begin{equation}
+\boxed{
+e^{-t^2/(2s^2)}
+\quad\longleftrightarrow\quad
+\sqrt{2\pi}\,s\,e^{-2\pi^2s^2f^2}.
+}
+\end{equation}
+
+The transform of a Gaussian is another Gaussian. Writing the
+frequency amplitude as $C e^{-f^2/(2s_f^2)}$ gives
+\[
+s_f=\frac{1}{2\pi s},
+\qquad
+\boxed{s\,s_f=\frac{1}{2\pi}.}
+\]
+These are amplitude-profile width parameters.
+
+\section{Time--frequency uncertainty}
+
+The uncertainty principle concerns the spread of the
+\emph{signal's energy}, rather than the spacing of sampled axes.
+
+For a nonzero finite-energy signal, define
+\[
+E=\int_{-\infty}^{\infty}|x(t)|^2\,dt
+=\int_{-\infty}^{\infty}|X(f)|^2\,df,
+\]
+where the equality follows from Parseval's theorem.
+
+The energy centroids are
+\[
+\bar t=\frac{1}{E}\int t|x(t)|^2\,dt,
+\qquad
+\bar f=\frac{1}{E}\int f|X(f)|^2\,df.
+\]
+The corresponding variances are
+\begin{equation}
+\sigma_t^2=\frac{1}{E}\int(t-\bar t)^2|x(t)|^2\,dt,
+\qquad
+\sigma_f^2=\frac{1}{E}\int(f-\bar f)^2|X(f)|^2\,df.
+\end{equation}
+All integrals above extend over the real line.
+
+When these variances are finite, the Fourier uncertainty relation is
+\begin{equation}
+\boxed{\sigma_t\sigma_f\geq\frac{1}{4\pi}.}
+\end{equation}
+In angular frequency, $\sigma_\omega=2\pi\sigma_f$, so
+\[
+\boxed{\sigma_t\sigma_\omega\geq\frac12.}
+\]
+
+A signal cannot have arbitrarily small energy spreads in both time
+and frequency.
+
+\subsection*{The Gaussian reaches equality}
+
+For $x(t)=e^{-t^2/(2s^2)}$,
+\[
+|x(t)|^2=e^{-t^2/s^2},
+\]
+so
+\[
+\sigma_t=\frac{s}{\sqrt2}.
+\]
+Similarly,
+\[
+|X(f)|^2=2\pi s^2e^{-4\pi^2s^2f^2},
+\]
+giving
+\[
+\sigma_f=\frac{1}{2\sqrt2\,\pi s}.
+\]
+Therefore,
+\begin{equation}
+\boxed{
+\sigma_t\sigma_f
+=\frac{s}{\sqrt2}\,
+\frac{1}{2\sqrt2\,\pi s}
+=\frac{1}{4\pi}.
+}
+\end{equation}
+This differs from the amplitude-width product $s\,s_f=1/(2\pi)$
+because squaring a Gaussian makes its profile narrower.
+
+\subsection*{The boxcar has infinite spectral variance}
+
+For the boxcar,
+\[
+\sigma_t=\frac{L}{\sqrt{12}}.
+\]
+However,
+\[
+f^2|X(f)|^2=\frac{\sin^2(\pi fL)}{\pi^2},
+\]
+whose integral over all frequencies diverges. Therefore,
+\[
+\sigma_f=\infty.
+\]
+The sinc main lobe has finite width, but its energy-based frequency
+variance is infinite. Main-lobe width and standard deviation are
+different measures of spectral width.
+
+\section{Key distinctions}
+
+\begin{center}
+\begin{tabular}{lp{0.62\textwidth}}
+\toprule
+Relation & Interpretation\\
+\midrule
+$f_N=1/(2\delta t)$ &
+Time sampling controls the available frequency range.\\[4pt]
+$\delta f=1/T$ &
+DFT record duration controls frequency-bin spacing.\\[4pt]
+$\sigma_t\sigma_f\geq1/(4\pi)$ &
+Signal energy cannot be arbitrarily localized in both domains.\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+A short pulse can be sampled very finely and placed in a long,
+zero-padded record. Its DFT bins can then be closely spaced, while
+its intrinsic spectrum remains broad.
+
+\begin{quote}
+Cosine and sine are fixed basis functions in quadrature.
+Amplitude and phase describe their resulting sinusoid.
+Sampling intervals describe the axes; energy spreads describe
+the signal.
+\end{quote}
+
+\end{document}

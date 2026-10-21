@@ -1,0 +1,187 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+\usetheme{Madrid}
+\usecolortheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{graphicx}
+\newcommand{\Smat}{\mathbf S}
+\newcommand{\fvec}{\mathbf f}
+\newcommand{\yvec}{\mathbf y}
+\newcommand{\evec}{\mathbf e}
+\newcommand{\Rmat}{\mathbf R}
+\newcommand{\pvec}{\mathbf p}
+\title{Least-Squares Filter Design}
+\subtitle{From prediction error to the normal equations}
+\author{ERTH 467 --- Geoscientific Signal Processing}
+\date{}
+\begin{document}
+\begin{frame}\titlepage\end{frame}
+
+\begin{frame}{What are we trying to achieve?}
+\begin{itemize}
+\item Known input signal $s_n$ and desired output (target) $y_n$.
+\item Design a filter $f_k$ so that the convolution predicts the target:
+\end{itemize}
+\[\widehat y_n=\sum_{k=0}^{M-1}f_k s_{n-k}\]
+\begin{block}{Matrix representation}
+\[\boxed{\widehat{\yvec}=\Smat\fvec}\]
+\end{block}
+\small $\Smat$ contains shifted versions of the input signal; $\fvec$ contains the unknown coefficients.
+\end{frame}
+
+\begin{frame}{Convolution as a matrix multiplication}
+\small For zero-padded causal convolution, a Toeplitz matrix is typical:
+\[\underbrace{\begin{bmatrix}s_0&0&0\\s_1&s_0&0\\s_2&s_1&s_0\\s_3&s_2&s_1\\\vdots&\vdots&\vdots\end{bmatrix}}_{\Smat}\underbrace{\begin{bmatrix}f_0\\f_1\\f_2\end{bmatrix}}_{\fvec}=\underbrace{\begin{bmatrix}\widehat y_0\\\widehat y_1\\\widehat y_2\\\widehat y_3\\\vdots\end{bmatrix}}_{\widehat\yvec}\]
+\begin{itemize}
+\item $\Smat$: $N\times M$, $\fvec$: $M\times1$, target $\yvec$: $N\times1$.
+\item \textbf{Periodic convolution} gives a \emph{circulant} $\Smat$ instead.
+\item The following least-squares derivation works for \emph{either} matrix.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Define the prediction error}
+\[\boxed{\evec=\yvec-\widehat\yvec=\yvec-\Smat\fvec}\]
+\begin{itemize}
+\item Usually we cannot match every target sample exactly.
+\item We therefore choose the filter that minimizes the \textbf{sum of squared errors}.
+\end{itemize}
+\begin{block}{Least-squares objective: a scalar function of $\fvec$}
+\[\boxed{J(\fvec)=\sum_{n=0}^{N-1}e_n^2=\evec^T\evec=(\yvec-\Smat\fvec)^T(\yvec-\Smat\fvec)}\]
+\end{block}
+\end{frame}
+
+\begin{frame}{How do we locate the minimum?}
+\begin{itemize}
+\item In elementary calculus: set the derivative of a differentiable function to zero.
+\item Here $J$ depends on $M$ filter coefficients $f_0,\ldots,f_{M-1}$.
+\item Set every partial derivative to zero, or equivalently the gradient:
+\end{itemize}
+\[\nabla_{\fvec}J=\begin{bmatrix}\partial J/\partial f_0\\\partial J/\partial f_1\\\vdots\\\partial J/\partial f_{M-1}\end{bmatrix}=\mathbf0\]
+\begin{alertblock}{Our task}
+Compute $\nabla_{\fvec}J$ from the squared-error expression.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Step 1: expand the squared prediction error}
+\small
+\begin{align*}
+J(\fvec)&=(\yvec-\Smat\fvec)^T(\yvec-\Smat\fvec)\\[4pt]
+&=(\yvec^T-\fvec^T\Smat^T)(\yvec-\Smat\fvec)\\[4pt]
+&=\yvec^T\yvec-\yvec^T\Smat\fvec-\fvec^T\Smat^T\yvec+\fvec^T\Smat^T\Smat\fvec.
+\end{align*}
+\begin{block}{Key observation}
+$\yvec^T\Smat\fvec$ and $\fvec^T\Smat^T\yvec$ are equal scalars (transposes of each other).
+\end{block}
+\[\boxed{J(\fvec)=\yvec^T\yvec-2\fvec^T\Smat^T\yvec+\fvec^T\Smat^T\Smat\fvec}\]
+\end{frame}
+
+\begin{frame}{Step 2: differentiate term by term}
+\small Only $\fvec$ varies; $\Smat$ and $\yvec$ are known.
+\begin{align*}
+\nabla_{\fvec}(\yvec^T\yvec)&=\mathbf0&&\text{constant term}\\[7pt]
+\nabla_{\fvec}(-2\fvec^T\Smat^T\yvec)&=-2\Smat^T\yvec&&\text{linear term}\\[7pt]
+\nabla_{\fvec}(\fvec^T\Smat^T\Smat\fvec)&=2\Smat^T\Smat\fvec&&\text{quadratic term}
+\end{align*}
+\vspace{3mm}
+\begin{block}{Why a factor of 2 in the last term?}
+$\Smat^T\Smat$ is symmetric; for symmetric $\mathbf A$, $\nabla_{\fvec}(\fvec^T\mathbf A\fvec)=2\mathbf A\fvec$.
+\end{block}
+\end{frame}
+
+\begin{frame}{Step 2: collect the gradient}
+\[\boxed{\nabla_{\fvec}J=-2\Smat^T\yvec+2\Smat^T\Smat\fvec}\]
+\vspace{6mm}
+Factor the expression:
+\[\boxed{\nabla_{\fvec}J=-2\Smat^T(\yvec-\Smat\fvec)=-2\Smat^T\evec}\]
+\vspace{5mm}
+\begin{itemize}
+\item Each gradient component describes the change in total squared error when one filter coefficient changes.
+\item We seek a filter for which \textbf{all} these derivatives vanish.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Step 3: set the gradient to zero}
+\begin{align*}
+\nabla_{\fvec}J&=\mathbf0\\[5pt]
+-2\Smat^T\yvec+2\Smat^T\Smat\fvec&=\mathbf0\\[5pt]
+\Smat^T\Smat\fvec&=\Smat^T\yvec
+\end{align*}
+\begin{block}{Normal equations}
+\[\boxed{\Smat^T\Smat\fvec=\Smat^T\yvec}\]
+A system of $M$ linear equations for the $M$ unknown filter coefficients.
+\end{block}
+\end{frame}
+
+\begin{frame}{Solving for the least-squares filter}
+\begin{block}{Formal solution (when $\Smat^T\Smat$ is invertible)}
+\[\boxed{\fvec_{\mathrm{LS}}=(\Smat^T\Smat)^{-1}\Smat^T\yvec}\]
+\end{block}
+\begin{itemize}
+\item This is the expression shown on the lecture slide.
+\item \textbf{Numerically:} solve $\Smat^T\Smat\fvec=\Smat^T\yvec$; do not explicitly form the inverse.
+\item If $\Smat$ has dependent columns, an ordinary inverse does not exist; a pseudoinverse or regularization can be used.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Why is this stationary point a minimum?}
+\small The Hessian (matrix of second derivatives) is
+\[\nabla_{\fvec}^2J=2\Smat^T\Smat.\]
+For any vector $\mathbf v$,
+\[\mathbf v^T\Smat^T\Smat\mathbf v=\|\Smat\mathbf v\|_2^2\ge0.\]
+\begin{block}{Consequence}
+$J$ is a \textbf{convex quadratic}: any solution of the normal equations is a global minimum. If $\Smat$ has independent columns, this minimum is unique.
+\end{block}
+\end{frame}
+
+\begin{frame}{Geometric meaning: the residual is orthogonal}
+At the optimal filter,
+\[\nabla_{\fvec}J=-2\Smat^T\evec_{\mathrm{LS}}=\mathbf0\]
+so
+\[\boxed{\Smat^T\evec_{\mathrm{LS}}=\mathbf0}.\]
+\begin{itemize}
+\item The remaining prediction error is orthogonal to every column of $\Smat$.
+\item No further adjustment using the available shifted input signals can reduce the squared error.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Connection to correlation}
+Define
+\[\Rmat=\Smat^T\Smat,\qquad \pvec=\Smat^T\yvec.\]
+Then the normal equations read
+\[\boxed{\Rmat\fvec=\pvec}.\]
+\begin{itemize}
+\item $\Rmat$: inner products between shifted copies of the \textbf{input} (autocorrelation-related).
+\item $\pvec$: inner products between shifted input and \textbf{target} (cross-correlation-related).
+\item Boundary conventions (zero padding vs periodicity) affect exact entries.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Optional: derive the equations one coefficient at a time}
+\scriptsize
+\[J=\sum_{n=0}^{N-1}\left(y_n-\sum_{k=0}^{M-1}S_{nk}f_k\right)^2\]
+By the chain rule, differentiating with respect to a single $f_j$ gives
+\begin{align*}
+\frac{\partial J}{\partial f_j}
+&=2\sum_{n=0}^{N-1}\left(y_n-\sum_{k=0}^{M-1}S_{nk}f_k\right)(-S_{nj})\\
+&=-2\sum_{n=0}^{N-1}S_{nj}e_n.
+\end{align*}
+Setting this equal to zero and rearranging:
+\[\boxed{\sum_{n=0}^{N-1}S_{nj}\sum_{k=0}^{M-1}S_{nk}f_k=\sum_{n=0}^{N-1}S_{nj}y_n}\]
+This is the $j$th row of $\Smat^T\Smat\fvec=\Smat^T\yvec$.
+\end{frame}
+
+\begin{frame}{Summary: from prediction error to filter}
+\begin{enumerate}
+\item Predict: $\widehat\yvec=\Smat\fvec$.
+\item Define error: $\evec=\yvec-\Smat\fvec$.
+\item Minimize $J(\fvec)=\evec^T\evec$.
+\item Differentiate: $\nabla_{\fvec}J=-2\Smat^T\yvec+2\Smat^T\Smat\fvec$.
+\item Set equal to zero and solve:
+\end{enumerate}
+\vspace{5mm}
+\begin{block}{Main result}
+\[\boxed{\Smat^T\Smat\fvec=\Smat^T\yvec}\]
+\end{block}
+\end{frame}
+\end{document}

@@ -1,0 +1,231 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue}
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+\newcommand{\Smat}{\mathbf{S}}
+\newcommand{\fvec}{\mathbf{f}}
+\newcommand{\yvec}{\mathbf{y}}
+\newcommand{\evec}{\mathbf{e}}
+\newcommand{\Rmat}{\mathbf{R}}
+\newcommand{\pvec}{\mathbf{p}}
+\begin{document}
+\begin{center}
+{\Large\bfseries Least-Squares Filter Design}\\[4pt]
+{\large ERTH 467 --- Geoscientific Signal Processing}\\[3pt]
+\emph{From prediction error to the normal equations}
+\end{center}
+
+\section{What problem are we trying to solve?}
+Suppose we know an input signal $s$ and a desired output (or \emph{target}) signal $y$.
+We seek the coefficients of a linear filter $f$ such that convolving $s$ with $f$
+produces an output as close as possible to $y$:
+\begin{equation}
+    \widehat y_n = \sum_{k=0}^{M-1}f_k\,s_{n-k}.
+    \label{eq:convolution}
+\end{equation}
+Here $M$ is the number of unknown filter coefficients. We collect samples into vectors,
+and write the convolution as a matrix multiplication:
+\begin{equation}
+    \boxed{\widehat{\yvec}=\Smat\fvec.}
+\end{equation}
+For $N$ output samples, $\Smat$ is an $N\times M$ matrix, $\fvec$ is an $M\times 1$
+vector, and $\yvec$ and $\widehat{\yvec}$ are $N\times 1$ vectors.
+Each column of $\Smat$ is a shifted copy of the input signal $s$.
+
+\textbf{Matrix convention.} For finite, zero-padded, causal convolution, $\Smat$ has
+Toeplitz structure, for example
+\begin{equation}
+\Smat=\begin{bmatrix}
+s_0&0&0\\
+s_1&s_0&0\\
+s_2&s_1&s_0\\
+s_3&s_2&s_1\\
+\vdots&\vdots&\vdots
+\end{bmatrix}.
+\end{equation}
+This is the type of matrix displayed in the lecture slide. If we instead assume
+\emph{periodic} indexing, $s_{n-k}$ is interpreted modulo $N$ and $\Smat$
+can be a \emph{circulant} matrix. For instance, with $N=M=3$,
+\begin{equation}
+\Smat_{\mathrm{circ}}=\begin{bmatrix}
+s_0&s_2&s_1\\
+s_1&s_0&s_2\\
+s_2&s_1&s_0
+\end{bmatrix}.
+\end{equation}
+\textbf{The least-squares derivation below is identical in either case.}
+
+\section{Define the prediction error}
+For each sample, define the prediction error as the difference between the
+observed target and the filtered signal:
+\begin{equation}
+    e_n=y_n-\widehat y_n=y_n-\sum_{k=0}^{M-1}S_{nk}f_k.
+\end{equation}
+In vector form,
+\begin{equation}
+    \boxed{\evec=\yvec-\Smat\fvec.}
+\end{equation}
+There are generally more data samples than unknown filter coefficients ($N\ge M$),
+so it may not be possible to make every $e_n$ exactly zero.
+Instead, choose $\fvec$ to minimize the \emph{sum of squared prediction errors}:
+\begin{equation}
+    \boxed{J(\fvec)=\sum_{n=0}^{N-1}e_n^2
+    =\evec^T\evec
+    =(\yvec-\Smat\fvec)^T(\yvec-\Smat\fvec).}
+    \label{eq:cost}
+\end{equation}
+This is the least-squares objective. It is a \emph{scalar} function of the
+$M$ unknown coefficients $f_0,\ldots,f_{M-1}$.
+
+\section{Find the minimum by differentiating}
+The key idea is the same as in elementary calculus: at a differentiable minimum,
+the derivative with respect to each adjustable coefficient is zero.
+With several unknowns, we collect all partial derivatives in the \emph{gradient}:
+\begin{equation}
+    \nabla_{\fvec}J=
+    \begin{bmatrix}
+    \partial J/\partial f_0\\
+    \partial J/\partial f_1\\
+    \vdots\\
+    \partial J/\partial f_{M-1}
+    \end{bmatrix},\qquad
+    \text{and require}\qquad \nabla_{\fvec}J=\mathbf{0}.
+\end{equation}
+
+\subsection*{Step 1: Expand the squared error}
+Using $(\mathbf{a}-\mathbf{b})^T=\mathbf{a}^T-\mathbf{b}^T$,
+\begin{align}
+J(\fvec)
+&=(\yvec^T-\fvec^T\Smat^T)(\yvec-\Smat\fvec)\\
+&=\yvec^T\yvec-\yvec^T\Smat\fvec
+-\fvec^T\Smat^T\yvec+\fvec^T\Smat^T\Smat\fvec.
+\end{align}
+The two middle terms are both \emph{scalars} and equal because one is the
+transpose of the other. Therefore,
+\begin{equation}
+    \boxed{J(\fvec)=\yvec^T\yvec
+    -2\fvec^T\Smat^T\yvec
+    +\fvec^T\Smat^T\Smat\fvec.}
+    \label{eq:expanded}
+\end{equation}
+
+\subsection*{Step 2: Differentiate with respect to the filter}
+Treat $\Smat$ and $\yvec$ as known; only $\fvec$ is variable.
+The three terms of Eq.~\eqref{eq:expanded} have gradients
+\begin{align}
+\nabla_{\fvec}(\yvec^T\yvec)&=\mathbf{0},
+&&\text{(independent of $\fvec$)},\\
+\nabla_{\fvec}(-2\fvec^T\Smat^T\yvec)&=-2\Smat^T\yvec,
+&&\text{(linear in $\fvec$)},\\
+\nabla_{\fvec}(\fvec^T\Smat^T\Smat\fvec)&=2\Smat^T\Smat\fvec,
+&&\text{(quadratic in $\fvec$)}.
+\end{align}
+The last identity holds because $\Smat^T\Smat$ is symmetric.
+Combining the three derivatives gives
+\begin{equation}
+    \boxed{\nabla_{\fvec}J
+    =-2\Smat^T\yvec+2\Smat^T\Smat\fvec
+    =-2\Smat^T(\yvec-\Smat\fvec).}
+    \label{eq:gradient}
+\end{equation}
+\textbf{Interpretation:} the derivative tells us how the total squared error
+changes when we slightly modify each coefficient of the filter.
+
+\subsection*{Step 3: Set the gradient to zero}
+At a minimum,
+\begin{align}
+\nabla_{\fvec}J&=\mathbf{0},\\
+-2\Smat^T\yvec+2\Smat^T\Smat\fvec&=\mathbf{0},\\
+\boxed{\Smat^T\Smat\fvec=\Smat^T\yvec.}
+\label{eq:normal}
+\end{align}
+These are the \textbf{normal equations}, a system of $M$ linear equations
+for the $M$ unknown filter coefficients.
+
+If $\Smat^T\Smat$ is invertible, the formal solution is
+\begin{equation}
+    \boxed{\fvec_{\mathrm{LS}}=(\Smat^T\Smat)^{-1}\Smat^T\yvec.}
+    \label{eq:solution}
+\end{equation}
+This is the expression on the lecture slide. In an actual numerical program,
+we generally \emph{solve} the linear system rather than explicitly constructing
+an inverse. If $\Smat$ has linearly dependent columns, the inverse does not exist;
+a pseudoinverse or regularization can be used instead.
+
+\section{Why does this stationary point minimize the error?}
+The curvature of the objective is described by its Hessian:
+\begin{equation}
+    \nabla_{\fvec}^2J=2\Smat^T\Smat.
+\end{equation}
+For any vector $\mathbf{v}$,
+\begin{equation}
+    \mathbf{v}^T\Smat^T\Smat\mathbf{v}
+    =(\Smat\mathbf{v})^T(\Smat\mathbf{v})
+    =\|\Smat\mathbf{v}\|_2^2\ge 0.
+\end{equation}
+Thus $J$ is a convex quadratic function, and a solution of the normal equations
+is a \emph{global minimum}, not a maximum. The minimum is unique when the columns
+of $\Smat$ are linearly independent.
+
+There is also a useful geometric interpretation. From Eq.~\eqref{eq:gradient},
+at the optimum
+\begin{equation}
+    \boxed{\Smat^T\evec_{\mathrm{LS}}=\mathbf{0}.}
+\end{equation}
+The remaining prediction error is orthogonal to every column of $\Smat$.
+In other words, no additional linear combination of the available shifted
+signal samples can reduce the squared error.
+
+\section{Connection with correlation}
+It is common to introduce
+\begin{equation}
+    \Rmat=\Smat^T\Smat,
+    \qquad \pvec=\Smat^T\yvec.
+\end{equation}
+Then the normal equations become
+\begin{equation}
+    \boxed{\Rmat\fvec=\pvec.}
+\end{equation}
+For a convolution matrix, entries of $\Rmat$ contain inner products of shifted
+copies of the input signal (related to \emph{autocorrelation}), while entries of
+$\pvec$ contain inner products between shifted input samples and the target
+(related to \emph{cross-correlation}). Exact edge behavior depends on whether
+we use finite zero-padded or periodic convolution.
+
+\section{Optional: check the derivative one coefficient at a time}
+For students who prefer ordinary scalar differentiation, start directly from
+\begin{equation}
+J=\sum_{n=0}^{N-1}\left(y_n-\sum_{k=0}^{M-1}S_{nk}f_k\right)^2.
+\end{equation}
+Differentiate with respect to one coefficient $f_j$ using the chain rule:
+\begin{align}
+\frac{\partial J}{\partial f_j}
+&=2\sum_{n=0}^{N-1}
+\left(y_n-\sum_{k=0}^{M-1}S_{nk}f_k\right)(-S_{nj})\\
+&=-2\sum_{n=0}^{N-1}S_{nj}e_n.
+\end{align}
+Setting this equal to zero for every $j=0,\ldots,M-1$ gives
+\begin{equation}
+\sum_{n=0}^{N-1}S_{nj}\sum_{k=0}^{M-1}S_{nk}f_k
+=\sum_{n=0}^{N-1}S_{nj}y_n,
+\end{equation}
+which is precisely the $j$th row of $\Smat^T\Smat\fvec=\Smat^T\yvec$.
+The scalar derivation and the matrix derivation are therefore the same calculation.
+
+\section*{Main result to remember}
+A least-squares filter chooses the coefficients $\fvec$ that make the
+predicted signal $\Smat\fvec$ as close as possible to the target $\yvec$
+in the \emph{sum-of-squared-errors} sense:
+\begin{equation*}
+\underbrace{J(\fvec)=(\yvec-\Smat\fvec)^T(\yvec-\Smat\fvec)}_{\text{define error}}
+\quad\xrightarrow{\;\nabla_{\fvec}J=0\;}\quad
+\underbrace{\Smat^T\Smat\fvec=\Smat^T\yvec}_{\text{solve for filter}}.
+\end{equation*}
+\end{document}
